@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './global/css/global.scss'
 import 'react-felix-ui/dist/cjs/index.css'
+import './global/css/global.scss'
 
 ReactDOM.render(
     <React.StrictMode>

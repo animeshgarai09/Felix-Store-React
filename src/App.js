@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Authentication, Basket, Home, Product, Shop, Wishlist, Error404 } from './pages'
-import { Header, Footer } from "./components"
+import { Authentication, Basket, Home, Product, Shop, Wishlist, Error404 } from '@pages'
+import { Header, Footer } from "@components"
 function App() {
     return (
         <Router>

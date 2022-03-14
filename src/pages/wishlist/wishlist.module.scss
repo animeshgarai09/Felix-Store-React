@@ -1,0 +1,13 @@
+.container {
+    width: 91.3333vw;
+    margin: 0 auto;
+    min-height: calc(100vh - 110px);
+    section {
+        padding: 3rem 1rem;
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+            gap: 1.4rem;
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import { productList } from "./data"
-import { ProductWrapper, ProductBody, ProductImage, ProductActions, Button } from "react-felix-ui"
+import { ProductWrapper, ProductBody, ProductImage, ProductActions, Button, IconButton } from "react-felix-ui"
 import { AiOutlineHeart, MdAdd } from "@icons"
 
 const PopularProducts = () => {
@@ -22,7 +22,7 @@ const PopularProducts = () => {
                         price={item.price}
                     >
                         <ProductActions>
-                            <Button size="sm" variant="ghost" theme='gray' leftIcon={<AiOutlineHeart />}></Button>
+                            <IconButton icon={<AiOutlineHeart />} className="like-btn" />
                             <Button size="sm" variant="ghost" leftIcon={<MdAdd />}>Add</Button>
                         </ProductActions>
                     </ProductBody>

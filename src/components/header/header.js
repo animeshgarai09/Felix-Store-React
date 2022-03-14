@@ -34,7 +34,7 @@ const Header = () => {
             </div>
             <header className={styles.container}>
                 <div className={styles.wrapper}>
-                    <a href="/"> <Logo className={styles.logo} alt="felix logo" /></a>
+                    <Link to="/"> <Logo className={styles.logo} alt="felix logo" /></Link>
                     <div className={styles.sub_wrapper}>
                         <div className={styles.search__container}>
                             <select name="cars" id="cars">

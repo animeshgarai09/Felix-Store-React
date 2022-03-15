@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Authentication, Basket, Home, Product, Shop, Wishlist, Error404 } from '@pages'
 import { Header, Footer } from "@components"
+import Mockman from "mockman-js"
 function App() {
     return (
         <Router>
@@ -14,6 +15,7 @@ function App() {
                     <Route path="/Product" element={<Product />}></Route>
                     <Route path="/signin" element={<Authentication />}></Route>
                     <Route path="/signup" element={<Authentication />}></Route>
+                    <Route path="/mock" element={<Mockman />}></Route>
                     <Route path="*" element={<Error404 />}></Route>
                 </Routes>
             </main>

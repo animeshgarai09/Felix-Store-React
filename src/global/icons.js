@@ -1,7 +1,7 @@
 import { AiFillShop, AiFillGithub, AiFillTwitterCircle, AiFillHeart, AiOutlineHeart } from "react-icons/ai"
 import { BiSearch, BiMap } from "react-icons/bi"
 import { RiShoppingBasket2Fill, RiHeartAddFill, RiUser6Fill } from "react-icons/ri"
-import { IoLogoLinkedin, IoIosCall } from 'react-icons/io'
+import { IoLogoLinkedin, IoIosCall, IoMdPricetag } from 'react-icons/io'
 import { HiMail } from 'react-icons/hi'
 import { MdAdd } from 'react-icons/md'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
@@ -22,6 +22,7 @@ export {
     RiUser6Fill,
     IoLogoLinkedin,
     IoIosCall,
+    IoMdPricetag,
     HiMail,
 
 }

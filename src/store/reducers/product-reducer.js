@@ -1,4 +1,4 @@
-export const productReducer = (state, action) => {
+export const ProductReducer = (state, action) => {
     switch (action.type) {
         case "SET_PRODUCTS":
             console.log(action.payload)

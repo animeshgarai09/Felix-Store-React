@@ -4,13 +4,38 @@ import { Input, Button } from "react-felix-ui"
 import { useLocation, Link } from 'react-router-dom';
 import { FaChevronRight, FaChevronLeft } from "@icons"
 import bag from "@assets/images/banner-11.png"
-
+import axios from "axios";
+import { useAuth } from "../../store/providers/auth-provider";
 const Authentication = () => {
     const { pathname } = useLocation()
     const [slider, setSlider] = useState(false);
     useEffect(() => {
         pathname === "/signup" ? setSlider(true) : setSlider(false)
     }, [pathname])
+
+    const { AuthDispatcher } = useAuth()
+    const SignIn = () => {
+        axios.post("/api/auth/login", {
+            email: 'animeshgarai09@gmail.com',
+            password: 'testing1234'
+        }).then((response) => {
+            console.log(response.data)
+            const user = response.data.foundUser
+            AuthDispatcher({
+                type: "SET_USER",
+                payload: {
+                    _id: user.id,
+                    name: `${user.firstName} ${user.lastName}`,
+                    email: user.email,
+                    createdAt: user.createdAt,
+                    updatedAt: user.updatedAt,
+                    encodedToken: response.data.encodedToken
+                }
+            })
+        })
+    }
+
+
 
     return (
         <div className={styles.green_bg}>
@@ -32,7 +57,7 @@ const Authentication = () => {
                                     <label for="check">Keep me signed in</label>
                                 </div>
                                 <div className={styles.form_buttons}>
-                                    <Button isWide={true}>Sign in</Button>
+                                    <Button isWide={true} onClick={SignIn}>Sign in</Button>
                                     <Button theme="gray" isWide={true}>Sign in as a guest</Button>
                                     <a href="#" className="text-center"> Forgot password?</a>
                                 </div>
@@ -52,7 +77,7 @@ const Authentication = () => {
                                     <label for="check">Keep me signed in</label>
                                 </div>
                                 <div className={styles.form_buttons}>
-                                    <Button isWide={true}>Sign Up</Button>
+                                    <Button isWide={true} >Sign Up</Button>
                                 </div>
                             </form>
                         </div>

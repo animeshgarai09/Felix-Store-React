@@ -6,13 +6,16 @@ import './global/css/global.scss'
 import { makeServer } from "./server";
 import { ProductProvider } from "./store/providers/product-provider"
 import { AuthProvider } from "./store/providers/auth-provider"
+import { ToastProvider } from "react-felix-ui"
 // Call make Server
 makeServer();
 ReactDOM.render(
     <React.StrictMode>
         <AuthProvider>
             <ProductProvider>
-                <App />
+                <ToastProvider>
+                    <App />
+                </ToastProvider>
             </ProductProvider>
         </AuthProvider>
     </React.StrictMode>,

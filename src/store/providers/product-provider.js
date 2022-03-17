@@ -9,7 +9,6 @@ const ProductProvider = ({ children }) => {
     useEffect(() => {
         axios.get("/api/products")
             .then((response) => {
-                console.log(response.data.products);
                 productDispatch({
                     type: "SET_PRODUCTS",
                     payload: response.data.products

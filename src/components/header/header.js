@@ -1,7 +1,8 @@
 import styles from "./header.module.scss"
-import { IconButton, List, ListItem } from "react-felix-ui"
+import { IconButton, List, ListItem, Avatar } from "react-felix-ui"
 import { Link } from "react-router-dom"
 import { ReactComponent as Logo } from '@assets/svg/logo.svg'
+import { useAuth } from "../../store/providers/auth-provider"
 import {
     AiFillShop,
     AiFillGithub,
@@ -14,6 +15,8 @@ import {
     HiMail
 } from "@icons"
 const Header = () => {
+    const { userState } = useAuth();
+    console.log(userState)
     return (
         <>
             <div className={styles.sub_header}>
@@ -68,7 +71,11 @@ const Header = () => {
                                 </ListItem>
                                 <ListItem>
                                     <Link to="/signin" className={styles.link}>
-                                        <IconButton icon={<RiUser6Fill />} className={styles.icon} />
+                                        {userState._id !== ""
+                                            ? <Avatar size="sm" name={userState.name} className={styles.avatar} />
+                                            : <IconButton icon={<RiUser6Fill />} className={styles.icon} />
+                                        }
+                                        {/* <IconButton icon={<RiUser6Fill />} className={styles.icon} /> */}
                                         Account
                                     </Link>
                                 </ListItem>

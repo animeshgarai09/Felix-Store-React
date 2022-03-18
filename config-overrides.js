@@ -7,6 +7,8 @@ module.exports = function override(config) {
         '@global': 'src/global',
         '@icons': 'src/global/icons.js',
         '@pages': 'src/pages',
+        '@providers': 'src/store/providers',
+        '@hooks': 'src/hooks',
     })(config);
 
     return config;

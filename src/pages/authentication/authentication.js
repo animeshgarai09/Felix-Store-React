@@ -1,17 +1,31 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import styles from "./authentication.module.scss"
-import { Input, Button } from "react-felix-ui"
-import { useLocation, Link } from 'react-router-dom';
-import { FaChevronRight, FaChevronLeft } from "@icons"
+import { useLocation } from 'react-router-dom';
 import bag from "@assets/images/banner-11.png"
+import Signin from "./sub-components/signin";
+import Signup from "./sub-components/signup";
 
 const Authentication = () => {
     const { pathname } = useLocation()
     const [slider, setSlider] = useState(false);
+    const signUpRef = useRef(null)
+    const signInRef = useRef(null)
     useEffect(() => {
-        pathname === "/signup" ? setSlider(true) : setSlider(false)
+        if (pathname === "/signup") {
+            setSlider(true)
+        } else {
+            setSlider(false)
+        }
     }, [pathname])
 
+    useEffect(() => {
+        console.log(signUpRef, signInRef)
+        if (pathname === "/signup") {
+            signUpRef?.current?.focus()
+        } else {
+            signInRef?.current?.focus()
+        }
+    }, [pathname, signUpRef, signInRef])
     return (
         <div className={styles.green_bg}>
             <section className={styles.container}>
@@ -19,43 +33,8 @@ const Authentication = () => {
 
                 <div className={styles.sub_container}>
                     <div className={`${styles.wrapper} ${slider ? styles.active : ""}`}>
-                        <div className={styles.signin}>
-                            <div className={styles.heading}>
-                                <h2>Sign in</h2>
-                                <Link to="/signup"><Button size="sm" variant="ghost" isRound={true} >Sign up <FaChevronRight /> </Button></Link>
-                            </div>
-                            <form className="form-container">
-                                <Input type="text" label="Full name" />
-                                <Input type="email" label="Email" />
-                                <div className={styles.checkbox}>
-                                    <input id="check" type="checkbox" />
-                                    <label for="check">Keep me signed in</label>
-                                </div>
-                                <div className={styles.form_buttons}>
-                                    <Button isWide={true}>Sign in</Button>
-                                    <Button theme="gray" isWide={true}>Sign in as a guest</Button>
-                                    <a href="#" className="text-center"> Forgot password?</a>
-                                </div>
-                            </form>
-                        </div>
-                        <div className={styles.signup}>
-                            <div className={styles.heading}>
-                                <Link to="/signin"><Button size="sm" variant="ghost" isRound={true} ><FaChevronLeft /> Sign up</Button></Link>
-                                <h2>Sign up</h2>
-                            </div>
-                            <form className="form-container">
-                                <Input type="text" label="Full name" />
-                                <Input type="email" label="Email" />
-                                <Input type="password" label="Password" />
-                                <div className={styles.checkbox}>
-                                    <input id="check" type="checkbox" />
-                                    <label for="check">Keep me signed in</label>
-                                </div>
-                                <div className={styles.form_buttons}>
-                                    <Button isWide={true}>Sign Up</Button>
-                                </div>
-                            </form>
-                        </div>
+                        <Signin signUpRef={signUpRef} />
+                        <Signup signInRef={signInRef} />
                     </div>
                 </div>
             </section>

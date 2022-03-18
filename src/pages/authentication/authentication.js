@@ -10,6 +10,7 @@ const Authentication = () => {
     const [slider, setSlider] = useState(false);
     const signUpRef = useRef(null)
     const signInRef = useRef(null)
+
     useEffect(() => {
         if (pathname === "/signup") {
             setSlider(true)

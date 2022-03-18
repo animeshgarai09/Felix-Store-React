@@ -3,6 +3,18 @@ export const AuthReducer = (state, action) => {
         case "SET_USER":
             localStorage.setItem("felix-user-token", action.payload.encodedToken)
             return { ...action.payload }
+        case "VERIFY_USER":
+            return { ...action.payload }
+        case "REMOVE_USER":
+            localStorage.removeItem("felix-user-token")
+            return {
+                _id: "",
+                name: "",
+                email: "",
+                createdAt: "",
+                updatedAt: "",
+                encodedToken: ""
+            }
         default:
             return state
     }

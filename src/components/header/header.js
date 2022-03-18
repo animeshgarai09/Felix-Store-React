@@ -1,8 +1,10 @@
+import { useState } from "react"
 import styles from "./header.module.scss"
 import { IconButton, List, ListItem, Avatar } from "react-felix-ui"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ReactComponent as Logo } from '@assets/svg/logo.svg'
 import { useAuth } from "../../store/providers/auth-provider"
+import { DropDownMenu, DropDownItem } from "../dropdown/dropdown"
 import {
     AiFillShop,
     AiFillGithub,
@@ -12,11 +14,23 @@ import {
     RiHeartAddFill,
     RiUser6Fill,
     IoLogoLinkedin,
-    HiMail
+    HiMail,
+    MdPowerSettingsNew
 } from "@icons"
+
+
 const Header = () => {
-    const { userState } = useAuth();
-    console.log(userState)
+    const { userState, AuthDispatcher } = useAuth();
+    const [dropdown, setDropdown] = useState(false)
+    const hideDropDown = () => setDropdown(false)
+    const navigate = useNavigate()
+    const logout = () => {
+        AuthDispatcher({
+            type: "REMOVE_USER"
+        })
+        navigate("/")
+    }
+
     return (
         <>
             <div className={styles.sub_header}>
@@ -69,15 +83,24 @@ const Header = () => {
                                         Basket
                                     </Link>
                                 </ListItem>
-                                <ListItem>
-                                    <Link to="/signin" className={styles.link}>
+                                <ListItem className={styles.dropdownNav}>
+                                    <span className={styles.link} onClick={() => setDropdown(state => !state)}>
                                         {userState._id !== ""
                                             ? <Avatar size="sm" name={userState.name} className={styles.avatar} />
                                             : <IconButton icon={<RiUser6Fill />} className={styles.icon} />
                                         }
-                                        {/* <IconButton icon={<RiUser6Fill />} className={styles.icon} /> */}
                                         Account
-                                    </Link>
+                                    </span>
+                                    {userState._id && dropdown && <DropDownMenu>
+                                        <Link to="/"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Profile</DropDownItem></Link>
+                                        <DropDownItem onClick={() => { logout(); hideDropDown(); }} className={styles.logout}><MdPowerSettingsNew />Sign out</DropDownItem>
+                                    </DropDownMenu>
+                                    }
+                                    {!userState._id && dropdown && <DropDownMenu>
+                                        <Link to="/signin"><DropDownItem onClick={hideDropDown}>Sign In</DropDownItem></Link>
+                                        <Link to="/signup"><DropDownItem onClick={hideDropDown}>Sign Up</DropDownItem></Link>
+                                    </DropDownMenu>
+                                    }
                                 </ListItem>
                             </List>
                         </nav>

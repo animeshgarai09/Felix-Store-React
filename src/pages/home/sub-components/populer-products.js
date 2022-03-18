@@ -3,7 +3,6 @@ import { AiOutlineHeart, MdAdd } from "@icons"
 import { useProducts } from "../../../store/providers/product-provider"
 const PopularProducts = () => {
     const productsList = useProducts()
-    console.log(productsList)
     return (
         productsList.slice(0, 10).map((item, i) => {
             return (

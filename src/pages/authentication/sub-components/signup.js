@@ -6,13 +6,15 @@ import axios from "axios";
 import { useAuth } from "@providers/auth-provider"
 import { useToast } from "react-felix-ui"
 import { useInputHandler } from "@hooks"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Signup = ({ signUpRef }) => {
 
-    const toast = useToast()
-    const navigate = useNavigate()
     const { AuthDispatcher } = useAuth()
+    const navigate = useNavigate()
+    /* Navigate user to home page if signed in and trying to get /signup page */
+
+    const toast = useToast()
     const [btnState, setBtnState] = useState(false)
 
     const { inputState, inputChange } = useInputHandler({
@@ -50,7 +52,6 @@ const Signup = ({ signUpRef }) => {
                 })
             }, 1000)
         }).catch((err) => {
-            console.log(err)
             setBtnState(false)
             toast({
                 status: "error",

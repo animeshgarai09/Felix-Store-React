@@ -1,10 +1,7 @@
 export const AuthReducer = (state, action) => {
     switch (action.type) {
         case "SET_USER":
-            localStorage.setItem("felix-user-token", action.payload.encodedToken)
-            return { ...action.payload }
-        case "VERIFY_USER":
-            return { ...action.payload }
+            return action.payload
         case "REMOVE_USER":
             localStorage.removeItem("felix-user-token")
             return {

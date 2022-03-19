@@ -4,22 +4,22 @@ import { Input, Button } from "react-felix-ui"
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { FaChevronRight } from "@icons"
 import axios from "axios";
-import { useAuth } from "@providers/auth-provider"
 import { useToast } from "react-felix-ui"
-import { useInputHandler } from "@hooks"
-import { useState, useEffect } from "react"
+import { useInputHandler, useSetUserDetails } from "@hooks"
+import { useState } from "react"
 
 const Signin = ({ signInRef }) => {
 
-    const { AuthDispatcher } = useAuth()
-    const navigate = useNavigate()
 
+    const navigate = useNavigate()
+    const SetUserDetails = useSetUserDetails()
     const toast = useToast()
     const location = useLocation()
     /* Check redirection path */
     const from = location.state?.from?.pathname || "/"
     /* Submit button state */
-    const [btnState, setBtnState] = useState(false)
+    const [submitState, setSubmitState] = useState(false)
+    const [guestState, setGuestState] = useState(false)
 
     /* Form input handler from useInputHandler hook*/
     const { inputState, inputChange } = useInputHandler({
@@ -29,11 +29,19 @@ const Signin = ({ signInRef }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        setBtnState(true)
+        setSubmitState(true)
+        console.log(event.target.type)
+        handleSignIn(inputState.email, inputState.password, from, setSubmitState)
+    }
 
+    const handleGuest = () => {
+        setGuestState(true)
+        handleSignIn("animeshgarai09@gmail.com", "testing1234", from, setGuestState)
+    }
+    const handleSignIn = (email, password, redirect, setState) => {
         axios.post("/api/auth/login", {
-            email: inputState.email,
-            password: inputState.password
+            email: email,
+            password: password
         }).then((response) => {
             const user = response.data.foundUser
             toast({
@@ -41,29 +49,20 @@ const Signin = ({ signInRef }) => {
                 message: `Hey ${user.fullName.split(" ")[0]}! Checkout fresh groceries.`,
                 duration: 2
             })
+
             setTimeout(() => {
-                AuthDispatcher({
-                    type: "SET_USER",
-                    payload: {
-                        _id: user.id,
-                        name: user.fullName,
-                        email: user.email,
-                        createdAt: user.createdAt,
-                        updatedAt: user.updatedAt,
-                        encodedToken: response.data.encodedToken
-                    }
-                })
-                navigate(from, { replace: true })
+                localStorage.setItem("felix-user-token", response.data.encodedToken)
+                SetUserDetails(user, response.data.encodedToken)
+                navigate(redirect, { replace: true })
             }, 500)
         }).catch((err) => {
-            setBtnState(false)
+            setState(false)
             toast({
                 status: "error",
                 message: `Invalid email & password !`,
             })
         })
     }
-
     return (
         <div className={styles.signin}>
             <div className={styles.heading}>
@@ -78,8 +77,8 @@ const Signin = ({ signInRef }) => {
                     <label for="check">Keep me signed in</label>
                 </div>
                 <div className={styles.form_buttons}>
-                    <Button type="submit" isWide={true} isTransform={false} isLoading={btnState}>Sign in</Button>
-                    <Button theme="gray" isWide={true} isTransform={false}>Sign in as a guest</Button>
+                    <Button type="submit" isWide={true} isTransform={false} isLoading={submitState}>Sign in</Button>
+                    <Button theme="gray" onClick={handleGuest} isWide={true} isTransform={false} isLoading={guestState}>Sign in as a guest</Button>
                     <a href="#" className="text-center"> Forgot password?</a>
                 </div>
             </form>

@@ -3,16 +3,15 @@ import { Input, Button } from "react-felix-ui"
 import { Link, useNavigate } from 'react-router-dom';
 import { FaChevronLeft } from "@icons"
 import axios from "axios";
-import { useAuth } from "@providers/auth-provider"
 import { useToast } from "react-felix-ui"
-import { useInputHandler } from "@hooks"
+import { useInputHandler, useSetUserDetails } from "@hooks"
 import { useState, useEffect } from "react"
 
 const Signup = ({ signUpRef }) => {
 
-    const { AuthDispatcher } = useAuth()
+
     const navigate = useNavigate()
-    /* Navigate user to home page if signed in and trying to get /signup page */
+    const SetUserDetails = useSetUserDetails()
 
     const toast = useToast()
     const [btnState, setBtnState] = useState(false)
@@ -39,17 +38,8 @@ const Signup = ({ signUpRef }) => {
             })
             setTimeout(() => {
                 navigate("/")
-                AuthDispatcher({
-                    type: "SET_USER",
-                    payload: {
-                        _id: user.id,
-                        name: user.fullName,
-                        email: user.email,
-                        createdAt: user.createdAt,
-                        updatedAt: user.updatedAt,
-                        encodedToken: response.data.encodedToken
-                    }
-                })
+                localStorage.setItem("felix-user-token", response.data.encodedToken)
+                SetUserDetails(user, response.data.encodedToken)
             }, 1000)
         }).catch((err) => {
             setBtnState(false)

@@ -1,21 +1,27 @@
 
 import styles from "../authentication.module.scss"
 import { Input, Button } from "react-felix-ui"
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { FaChevronRight } from "@icons"
 import axios from "axios";
 import { useAuth } from "@providers/auth-provider"
 import { useToast } from "react-felix-ui"
 import { useInputHandler } from "@hooks"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Signin = ({ signInRef }) => {
 
-    const toast = useToast()
-    const navigate = useNavigate()
     const { AuthDispatcher } = useAuth()
+    const navigate = useNavigate()
+
+    const toast = useToast()
+    const location = useLocation()
+    /* Check redirection path */
+    const from = location.state?.from?.pathname || "/"
+    /* Submit button state */
     const [btnState, setBtnState] = useState(false)
 
+    /* Form input handler from useInputHandler hook*/
     const { inputState, inputChange } = useInputHandler({
         email: "",
         password: ""
@@ -24,6 +30,7 @@ const Signin = ({ signInRef }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         setBtnState(true)
+
         axios.post("/api/auth/login", {
             email: inputState.email,
             password: inputState.password
@@ -31,11 +38,10 @@ const Signin = ({ signInRef }) => {
             const user = response.data.foundUser
             toast({
                 status: "success",
-                message: `Hey ${user.fullName}! Checkout fresh groceries.`,
+                message: `Hey ${user.fullName.split(" ")[0]}! Checkout fresh groceries.`,
                 duration: 2
             })
             setTimeout(() => {
-                navigate("/")
                 AuthDispatcher({
                     type: "SET_USER",
                     payload: {
@@ -47,7 +53,8 @@ const Signin = ({ signInRef }) => {
                         encodedToken: response.data.encodedToken
                     }
                 })
-            }, 1000)
+                navigate(from, { replace: true })
+            }, 500)
         }).catch((err) => {
             setBtnState(false)
             toast({

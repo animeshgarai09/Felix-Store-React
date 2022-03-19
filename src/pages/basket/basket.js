@@ -17,7 +17,7 @@ const Basket = () => {
                     </div>
                     {productList.slice(0, 5).map((item, i) => {
                         return (
-                            <ProductWrapper style="horizontal" key={item.id} onClose={() => console.log(i)} >
+                            <ProductWrapper style="horizontal" key={item.id}>
                                 <ProductImage src={item.img} alt='product' />
                                 <ProductBody
                                     title={item.name}

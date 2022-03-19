@@ -3,7 +3,7 @@ import { BiSearch, BiMap } from "react-icons/bi"
 import { RiShoppingBasket2Fill, RiHeartAddFill, RiUser6Fill } from "react-icons/ri"
 import { IoLogoLinkedin, IoIosCall, IoMdPricetag } from 'react-icons/io'
 import { HiMail } from 'react-icons/hi'
-import { MdAdd } from 'react-icons/md'
+import { MdAdd, MdPowerSettingsNew } from 'react-icons/md'
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
 
 export {
@@ -17,6 +17,7 @@ export {
     FaChevronRight,
     FaChevronLeft,
     MdAdd,
+    MdPowerSettingsNew,
     RiShoppingBasket2Fill,
     RiHeartAddFill,
     RiUser6Fill,
@@ -24,5 +25,4 @@ export {
     IoIosCall,
     IoMdPricetag,
     HiMail,
-
 }

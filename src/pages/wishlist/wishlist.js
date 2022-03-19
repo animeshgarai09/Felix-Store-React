@@ -12,7 +12,7 @@ const Wishlist = () => {
                 <div className={styles.wrapper}>
                     {productList.slice(0, 5).map((item, i) => {
                         return (
-                            <ProductWrapper key={item.id} onClose={() => console.log(i)} >
+                            <ProductWrapper key={item.id}>
                                 <ProductImage src={item.img} alt='product' badge={{ text: '30% Off', color: 'yellow' }} />
                                 <ProductBody
                                     title={item.name}

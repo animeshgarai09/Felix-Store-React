@@ -28,7 +28,6 @@
     background: #ffffff;
     top: 0;
     z-index: 10;
-    // box-shadow: var(--clr-box-shadow-1);
     .wrapper {
         display: flex;
         justify-content: space-between;
@@ -43,6 +42,15 @@
     .logo {
         width: rem(110);
     }
+    .dropdownNav {
+        position: relative;
+        .logout {
+            color: var(--clr-red);
+            &:hover {
+                background: var(--clr-red-light);
+            }
+        }
+    }
     .links {
         display: flex;
         align-items: center;
@@ -53,9 +61,12 @@
         .link {
             display: flex;
             flex-direction: column;
+            align-items: center;
             font-size: 0.75rem;
             line-height: 1.2;
             padding: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
             border-radius: 0.3rem;
             color: var(--clr-gray-1);
             transition: 0.2s;
@@ -67,9 +78,10 @@
             .icon {
                 font-size: 1.5rem;
             }
-            .avatar {
+            .avatar > div {
                 margin-bottom: 2px;
                 font-size: 0.8rem;
+                background: var(--clr-primary) !important;
             }
         }
     }

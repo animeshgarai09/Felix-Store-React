@@ -4,20 +4,26 @@ import App from './App';
 import 'react-felix-ui/dist/cjs/index.css'
 import './global/css/global.scss'
 import { makeServer } from "./server";
-import { ProductProvider } from "./store/providers/product-provider"
-import { AuthProvider } from "./store/providers/auth-provider"
+import { ProductProvider } from "@providers/product-provider"
+import { AuthProvider } from "@providers/auth-provider"
+import { BasketProvider } from "@providers/basket-provider"
+import { WishlistProvider } from "@providers/wishlist-provider"
 import { ToastProvider } from "react-felix-ui"
 // Call make Server
 makeServer();
 ReactDOM.render(
     <React.StrictMode>
-        <AuthProvider>
+        <ToastProvider>
             <ProductProvider>
-                <ToastProvider>
-                    <App />
-                </ToastProvider>
+                <BasketProvider>
+                    <WishlistProvider>
+                        <AuthProvider>
+                            <App />
+                        </AuthProvider>
+                    </WishlistProvider>
+                </BasketProvider>
             </ProductProvider>
-        </AuthProvider>
+        </ToastProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );

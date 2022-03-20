@@ -3,7 +3,10 @@ import styles from "./header.module.scss"
 import { IconButton, List, ListItem, Avatar } from "react-felix-ui"
 import { Link, useNavigate } from "react-router-dom"
 import { ReactComponent as Logo } from '@assets/svg/logo.svg'
-import { useAuth } from "../../store/providers/auth-provider"
+import { useAuth } from "@providers/auth-provider"
+import { useBasket } from "@providers/basket-provider"
+import { useWishlist } from "@providers/wishlist-provider"
+
 import { DropDownMenu, DropDownItem } from "../dropdown/dropdown"
 import {
     AiFillShop,
@@ -17,17 +20,27 @@ import {
     HiMail,
     MdPowerSettingsNew
 } from "@icons"
+import { useEffect } from "react"
 
 
 const Header = () => {
-    const { userState, AuthDispatcher } = useAuth();
+    const { UserState, AuthDispatcher } = useAuth();
+    const { BasketState, setBasketState } = useBasket()
+    const { WishlistState, setWishlistState } = useWishlist()
     const [dropdown, setDropdown] = useState(false)
     const hideDropDown = () => setDropdown(false)
     const navigate = useNavigate()
+
+    useEffect(() => {
+        console.log(WishlistState.length, WishlistState)
+    }, [WishlistState])
+
     const logout = () => {
         AuthDispatcher({
             type: "REMOVE_USER"
         })
+        setBasketState([])
+        setWishlistState([])
         navigate("/")
     }
 
@@ -73,30 +86,30 @@ const Header = () => {
                                 </ListItem>
                                 <ListItem>
                                     <Link to="/wishlist" className={styles.link}>
-                                        <IconButton icon={<RiHeartAddFill />} className={styles.icon} />
+                                        <IconButton icon={<RiHeartAddFill />} className={styles.icon} showBadge={WishlistState.length !== 0} badgeNumber={WishlistState.length} />
                                         Wishlist
                                     </Link>
                                 </ListItem>
                                 <ListItem>
                                     <Link to="/basket" className={styles.link}>
-                                        <IconButton icon={<RiShoppingBasket2Fill />} className={styles.icon} showBadge={true} badgeNumber={5} />
+                                        <IconButton icon={<RiShoppingBasket2Fill />} className={styles.icon} showBadge={BasketState.length !== 0} badgeNumber={BasketState.length} />
                                         Basket
                                     </Link>
                                 </ListItem>
                                 <ListItem className={styles.dropdownNav}>
                                     <span className={styles.link} onClick={() => setDropdown(state => !state)}>
-                                        {userState._id !== ""
-                                            ? <Avatar size="sm" name={userState.name} className={styles.avatar} />
+                                        {UserState._id !== ""
+                                            ? <Avatar size="sm" name={UserState.name} className={styles.avatar} />
                                             : <IconButton icon={<RiUser6Fill />} className={styles.icon} />
                                         }
                                         Account
                                     </span>
-                                    {userState._id && dropdown && <DropDownMenu>
+                                    {UserState._id && dropdown && <DropDownMenu>
                                         <Link to="/"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Profile</DropDownItem></Link>
                                         <DropDownItem onClick={() => { logout(); hideDropDown(); }} className={styles.logout}><MdPowerSettingsNew />Sign out</DropDownItem>
                                     </DropDownMenu>
                                     }
-                                    {!userState._id && dropdown && <DropDownMenu>
+                                    {!UserState._id && dropdown && <DropDownMenu>
                                         <Link to="/signin"><DropDownItem onClick={hideDropDown}>Sign In</DropDownItem></Link>
                                         <Link to="/signup"><DropDownItem onClick={hideDropDown}>Sign Up</DropDownItem></Link>
                                     </DropDownMenu>

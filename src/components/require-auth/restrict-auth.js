@@ -2,10 +2,10 @@ import React from 'react'
 import { useLocation, Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '@providers/auth-provider'
 const RestrictAuth = () => {
-    const { userState } = useAuth()
+    const { UserState } = useAuth()
     const location = useLocation()
     return (
-        userState._id
+        UserState._id
             ? <Navigate to="/" state={{ from: location }} replace />
             : <Outlet />
 

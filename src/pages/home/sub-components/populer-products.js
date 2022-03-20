@@ -1,12 +1,20 @@
 import { ProductWrapper, ProductBody, ProductImage, ProductActions, Button, IconButton } from "react-felix-ui"
 import { AiOutlineHeart, MdAdd } from "@icons"
-import { useProducts } from "../../../store/providers/product-provider"
+import { useProducts } from "@providers/product-provider"
+import { useBasket } from "@providers/basket-provider"
+import { useWishlist } from "@providers/wishlist-provider"
 const PopularProducts = () => {
     const productsList = useProducts()
+    const { addToBasket } = useBasket()
+    const { addToWishlist } = useWishlist()
+
+    const handleAddBasket = (item) => () => {
+        addToBasket(item)
+    }
     return (
         productsList.slice(0, 10).map((item, i) => {
             return (
-                <ProductWrapper key={item.id}>
+                <ProductWrapper key={item._id}>
                     <ProductImage src={require(`@assets/images/${item.img}`)} alt='product' badge={{ text: '30% Off', color: 'yellow' }} />
                     <ProductBody
                         title={item.title}
@@ -22,8 +30,8 @@ const PopularProducts = () => {
                         price={item.price}
                     >
                         <ProductActions>
-                            <IconButton icon={<AiOutlineHeart />} className="like-btn" />
-                            <Button size="sm" variant="ghost" leftIcon={<MdAdd />}>Add</Button>
+                            <IconButton onClick={() => addToWishlist(item)} icon={<AiOutlineHeart />} className="like-btn" />
+                            <Button onClick={() => addToBasket(item)} size="sm" variant="ghost" leftIcon={<MdAdd />}>Add</Button>
                         </ProductActions>
                     </ProductBody>
                 </ProductWrapper>

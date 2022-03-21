@@ -4,15 +4,12 @@ import { useProducts } from "@providers/product-provider"
 import { useBasket } from "@providers/basket-provider"
 import { useWishlist } from "@providers/wishlist-provider"
 const PopularProducts = () => {
-    const productsList = useProducts()
+    const { products } = useProducts()
     const { addToBasket } = useBasket()
     const { addToWishlist } = useWishlist()
 
-    const handleAddBasket = (item) => () => {
-        addToBasket(item)
-    }
     return (
-        productsList.slice(0, 10).map((item, i) => {
+        products.slice(0, 10).map((item, i) => {
             return (
                 <ProductWrapper key={item._id}>
                     <ProductImage src={require(`@assets/images/${item.img}`)} alt='product' badge={{ text: '30% Off', color: 'yellow' }} />

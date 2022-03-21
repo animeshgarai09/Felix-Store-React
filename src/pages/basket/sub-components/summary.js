@@ -1,8 +1,24 @@
 import styles from "../basket.module.scss"
 import { Button } from "react-felix-ui"
 import { IoMdPricetag } from "@icons"
+import { useBasket } from "@providers/basket-provider"
+import { useState, useEffect } from "react"
 
 const Summary = () => {
+    const { BasketState } = useBasket()
+    const [MRP, setMRP] = useState(0)
+    const [discount, setDiscount] = useState(0)
+    const [total, setTotal] = useState(0)
+
+    useEffect(() => {
+        const mrp = BasketState.reduce((prev, current) => parseInt(prev) + parseInt(current.price), 0)
+        const total = BasketState.reduce((prev, current) => parseInt(prev) + parseInt(current.currentPrice), 0)
+        const discount = mrp - total
+        setMRP(mrp)
+        setDiscount(discount)
+        setTotal(total)
+    }, [BasketState])
+
     return (
         <>
             <div className={`${styles.coupon_container} text-w-500`}>
@@ -10,16 +26,16 @@ const Summary = () => {
                 <Button size="sm" variant="outline" isTransform={false}>Apply</Button>
 
             </div>
-            <h6>Price Details (2 Items)</h6>
+            <h6>Price Details ({BasketState.length} Items)</h6>
             <div className={styles.order}>
                 <div className={styles.breakup}>
                     <div className={styles.item}>
                         <span>Total MRP</span>
-                        <span>2000</span>
+                        <span>{MRP}</span>
                     </div>
                     <div className={styles.item}>
                         <span>Discounted on MRP</span>
-                        <span className="text-success">-1000</span>
+                        <span className="text-success">{discount}</span>
                     </div>
                     <div className={styles.item}>
                         <span>Coupon Discount</span>
@@ -32,10 +48,13 @@ const Summary = () => {
                 </div>
                 <div className={`${styles.item} text-w-600`}>
                     <span>Total Amount</span>
-                    <span>1500</span>
+                    <span>{total}</span>
                 </div>
             </div>
             <Button size="md" isWide={true}>Place your order</Button>
+            <div className={styles.save_offer}>
+                <p>You will save <span>Rs.250</span> from the regular market price</p>
+            </div>
         </>
     )
 }

@@ -13,7 +13,7 @@ import { ToastProvider } from "react-felix-ui"
 makeServer();
 ReactDOM.render(
     <React.StrictMode>
-        <ToastProvider>
+        <ToastProvider className="toast-container">
             <ProductProvider>
                 <BasketProvider>
                     <WishlistProvider>

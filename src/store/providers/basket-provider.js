@@ -47,13 +47,26 @@ const BasketProvider = ({ children }) => {
             },
         }).then((response) => {
             setBasketState(response.data.cart);
-
         }).catch(err => {
             console.log(err);
-
         })
     }
-
+    const removeAllFromBasket = () => {
+        axios.delete(`/api/user/cart`, {
+            headers: {
+                authorization: encodedToken,
+            },
+        }).then((response) => {
+            setBasketState(response.data.cart);
+            toast({
+                status: "success",
+                message: "Removed all items from basket",
+                duration: 2
+            })
+        }).catch(err => {
+            console.log(err);
+        })
+    }
     // const changeCartQty = async (quantity, id) => {
     //         await axios.post(
     //             `/api/user/cart/${id}`,
@@ -74,7 +87,7 @@ const BasketProvider = ({ children }) => {
     //     }
     // };
     return (
-        <BasketContext.Provider value={{ BasketState, setBasketState, addToBasket, removeFromBasket }}>
+        <BasketContext.Provider value={{ BasketState, setBasketState, addToBasket, removeFromBasket, removeAllFromBasket }}>
             {children}
         </BasketContext.Provider>
     )

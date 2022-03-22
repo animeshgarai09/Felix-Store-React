@@ -27,7 +27,6 @@
 html,
 body {
     line-height: 1.5em;
-    scroll-behavior: smooth;
 }
 
 *,
@@ -49,4 +48,8 @@ main {
     &:hover {
         background: #e2e2e2;
     }
+}
+
+.toast-container {
+    top: 5.5rem;
 }

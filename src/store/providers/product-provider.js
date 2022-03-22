@@ -3,17 +3,32 @@ import { ProductReducer } from '../reducers/product-reducer'
 import axios from "axios"
 const ProductContext = createContext()
 
+const initState = {
+    products: [],
+    categories: []
+}
 const ProductProvider = ({ children }) => {
 
-    const [productState, productDispatch] = useReducer(ProductReducer, [])
+    const [productState, productDispatch] = useReducer(ProductReducer, initState)
+    let endpoints = [
+        "/api/products",
+        "/api/categories",
+    ];
     useEffect(() => {
-        axios.get("/api/products")
-            .then((response) => {
+        Promise.all(endpoints.map((endpoint) => axios.get(endpoint))).then(
+            axios.spread((...allData) => {
+                const [products, categories] = allData
+                console.log(products, categories)
                 productDispatch({
                     type: "SET_PRODUCTS",
-                    payload: response.data.products
+                    payload: products.data.products
+                })
+                productDispatch({
+                    type: "SET_CATEGORIES",
+                    payload: categories.data.categories
                 })
             })
+        );
     }, [])
     return (
         <ProductContext.Provider value={productState}>

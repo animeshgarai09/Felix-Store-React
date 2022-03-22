@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Authentication, Basket, Home, Product, Shop, Wishlist, Error404 } from '@pages'
-import { Header, Footer, RequireAuth, RestrictAuth } from "@components"
+import { Header, Footer, RequireAuth, RestrictAuth, ScrollToTop } from "@components"
 import Mockman from "mockman-js"
 function App() {
     return (
         <Router>
             <Header />
-            <main>
+            <ScrollToTop>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/shop" element={<Shop />}></Route>
@@ -22,7 +22,7 @@ function App() {
                     <Route path="/mock" element={<Mockman />}></Route>
                     <Route path="*" element={<Error404 />}></Route>
                 </Routes>
-            </main>
+            </ScrollToTop>
             <Footer />
         </Router>
     );

@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useToast } from 'react-felix-ui'
 import axios from "axios"
@@ -9,6 +10,8 @@ const BasketProvider = ({ children }) => {
     const encodedToken = localStorage.getItem("felix-user-token");
     const [BasketState, setBasketState] = useState([])
     const toast = useToast()
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const addToBasket = (item) => {
         const checkPresence = BasketState.filter((bItem => bItem._id === item._id))
@@ -29,7 +32,12 @@ const BasketProvider = ({ children }) => {
                     duration: 2
                 })
             }).catch((err) => {
-                console.log(err)
+                toast({
+                    status: "error",
+                    message: "Sign in to your account first",
+                    duration: 2
+                })
+                navigate('/signin', { state: { from: location } }, { replace: true })
             })
         } else {
             toast({
@@ -49,6 +57,12 @@ const BasketProvider = ({ children }) => {
             setBasketState(response.data.cart);
         }).catch(err => {
             console.log(err);
+            toast({
+                status: "error",
+                message: "Sign in to your account first",
+                duration: 2
+            })
+            navigate('/signin', { state: { from: location } })
         })
     }
     const removeAllFromBasket = () => {
@@ -65,6 +79,12 @@ const BasketProvider = ({ children }) => {
             })
         }).catch(err => {
             console.log(err);
+            toast({
+                status: "error",
+                message: "Sign in to your account first",
+                duration: 2
+            })
+            navigate('/signin', { state: { from: location } })
         })
     }
     // const changeCartQty = async (quantity, id) => {

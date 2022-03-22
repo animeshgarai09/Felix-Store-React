@@ -26,7 +26,6 @@ const AuthProvider = ({ children }) => {
                 encodedToken: token
             }).then((response) => {
                 const user = response.data
-                console.log(user.cart)
                 AuthDispatcher({
                     type: "SET_USER",
                     payload: {

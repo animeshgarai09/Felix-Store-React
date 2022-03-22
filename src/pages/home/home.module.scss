@@ -125,16 +125,26 @@
             gap: 1rem;
             padding: 1rem 0.8rem;
             .timer_block {
-                height: 3.7rem;
+                height: 3.5rem;
                 background: var(--clr-white);
                 display: inline-flex;
                 flex-direction: column;
+                gap: 0.2rem;
                 font-size: 0.9rem;
                 flex: 1;
-                border-radius: 11px;
+                border-radius: 0.3rem;
                 justify-content: center;
                 line-height: 1;
                 align-items: center;
+                span:first-child {
+                    color: var(--clr-primary);
+                    font-weight: 500;
+                }
+                span:last-child {
+                    color: var(--clr-gray-2);
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                }
             }
         }
     }

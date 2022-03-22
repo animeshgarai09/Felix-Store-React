@@ -20,7 +20,6 @@ import {
     HiMail,
     MdPowerSettingsNew
 } from "@icons"
-import { useEffect } from "react"
 
 
 const Header = () => {
@@ -30,10 +29,6 @@ const Header = () => {
     const [dropdown, setDropdown] = useState(false)
     const hideDropDown = () => setDropdown(false)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        console.log(WishlistState.length, WishlistState)
-    }, [WishlistState])
 
     const logout = () => {
         AuthDispatcher({

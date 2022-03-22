@@ -18,7 +18,6 @@ const ProductProvider = ({ children }) => {
         Promise.all(endpoints.map((endpoint) => axios.get(endpoint))).then(
             axios.spread((...allData) => {
                 const [products, categories] = allData
-                console.log(products, categories)
                 productDispatch({
                     type: "SET_PRODUCTS",
                     payload: products.data.products

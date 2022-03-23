@@ -1,15 +1,16 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Authentication, Basket, Home, Product, Shop, Wishlist, Error404 } from '@pages'
 import { Header, Footer, RequireAuth, RestrictAuth, ScrollToTop } from "@components"
+import { FilterProvider } from "@providers/filter-provider";
 import Mockman from "mockman-js"
 function App() {
     return (
-        <Router>
+        <>
             <Header />
             <ScrollToTop>
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
-                    <Route path="/shop" element={<Shop />}></Route>
+                    <Route path="/shop" element={<FilterProvider><Shop /></FilterProvider>}></Route>
                     <Route element={<RequireAuth />}>
                         <Route path="/wishlist" element={<Wishlist />}></Route>
                         <Route path="/basket" element={<Basket />}></Route>
@@ -24,7 +25,7 @@ function App() {
                 </Routes>
             </ScrollToTop>
             <Footer />
-        </Router>
+        </>
     );
 }
 

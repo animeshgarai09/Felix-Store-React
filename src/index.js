@@ -9,21 +9,25 @@ import { AuthProvider } from "@providers/auth-provider"
 import { BasketProvider } from "@providers/basket-provider"
 import { WishlistProvider } from "@providers/wishlist-provider"
 import { ToastProvider } from "react-felix-ui"
+import { BrowserRouter as Router } from "react-router-dom";
+
 // Call make Server
 makeServer();
 ReactDOM.render(
     <React.StrictMode>
-        <ToastProvider className="toast-container">
-            <ProductProvider>
-                <BasketProvider>
-                    <WishlistProvider>
-                        <AuthProvider>
-                            <App />
-                        </AuthProvider>
-                    </WishlistProvider>
-                </BasketProvider>
-            </ProductProvider>
-        </ToastProvider>
+        <Router>
+            <ToastProvider className="toast-container">
+                <ProductProvider>
+                    <BasketProvider>
+                        <WishlistProvider>
+                            <AuthProvider>
+                                <App />
+                            </AuthProvider>
+                        </WishlistProvider>
+                    </BasketProvider>
+                </ProductProvider>
+            </ToastProvider>
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 );

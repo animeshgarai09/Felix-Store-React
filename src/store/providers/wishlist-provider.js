@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useToast } from 'react-felix-ui'
 import { useState } from 'react'
 import axios from "axios"
@@ -9,6 +10,8 @@ const WishlistProvider = ({ children }) => {
     const encodedToken = localStorage.getItem("felix-user-token");
     const [WishlistState, setWishlistState] = useState([])
     const toast = useToast()
+    const navigate = useNavigate()
+    const location = useLocation()
 
     const addToWishlist = (item) => {
         const checkPresence = WishlistState.filter((wItem => wItem._id === item._id))
@@ -30,6 +33,12 @@ const WishlistProvider = ({ children }) => {
                 })
             }).catch((err) => {
                 console.log(err)
+                toast({
+                    status: "error",
+                    message: "Sign in to your account first",
+                    duration: 2
+                })
+                navigate('/signin', { state: { from: location } })
             })
         } else {
             toast({
@@ -50,7 +59,12 @@ const WishlistProvider = ({ children }) => {
 
         }).catch(err => {
             console.log(err);
-
+            toast({
+                status: "error",
+                message: "Sign in to your account first",
+                duration: 2
+            })
+            navigate('/signin', { state: { from: location } })
         })
     }
     return (

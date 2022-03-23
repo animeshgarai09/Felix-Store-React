@@ -8,3 +8,52 @@ export const productCountByCategory = (products, categories) => {
     }
     return categories
 }
+
+export const fetchFilterStateFromParams = (params) => {
+    const init = {
+        filter: false,
+        sortBy: null,
+        categories: [],
+        priceLow: 1,
+        priceHigh: 1000,
+    }
+    return [...params].reduce(reducer, init)
+}
+
+const reducer = (prev, current) => {
+    const [key, value] = current
+    switch (key) {
+        case "filter":
+            return {
+                ...prev,
+                filter: value
+            }
+        case "categories":
+            return {
+                ...prev,
+                categories: [...prev.categories, value]
+            }
+        case "rating":
+            return {
+                ...prev,
+                rating: value
+            }
+        case "sortBy":
+            return {
+                ...prev,
+                sortBy: value
+            }
+        case "priceLow":
+            return {
+                ...prev,
+                priceLow: value
+            }
+        case "priceHigh":
+            return {
+                ...prev,
+                priceHigh: value
+            }
+        default:
+            return prev
+    }
+}

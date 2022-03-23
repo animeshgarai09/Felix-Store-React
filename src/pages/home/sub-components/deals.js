@@ -2,6 +2,7 @@ import { productList } from "./data"
 import { ProductWrapper, ProductBody, ProductActions, Button, Image } from "react-felix-ui"
 import styles from "../home.module.scss"
 import { MdAdd } from "@icons"
+import Countdown from "./countdown"
 
 const Deals = () => {
     return (
@@ -12,24 +13,7 @@ const Deals = () => {
                         <Image src={require(`@assets/images/banner-${5 + i}.png`)} alt="banner" />
                     </div>
                     <div className={styles.content}>
-                        <div className={styles.timer}>
-                            <span className={styles.timer_block}>
-                                <span>150</span>
-                                <span>Days</span>
-                            </span>
-                            <span className={styles.timer_block}>
-                                <span>150</span>
-                                <span>Days</span>
-                            </span>
-                            <span className={styles.timer_block}>
-                                <span>150</span>
-                                <span>Days</span>
-                            </span>
-                            <span className={styles.timer_block}>
-                                <span>150</span>
-                                <span>Days</span>
-                            </span>
-                        </div>
+                        <Countdown timer={'May 30 2022 00:00:00'} />
                         <ProductWrapper >
                             <ProductBody
                                 title={item.name}

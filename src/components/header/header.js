@@ -6,6 +6,7 @@ import { ReactComponent as Logo } from '@assets/svg/logo.svg'
 import { useAuth } from "@providers/auth-provider"
 import { useBasket } from "@providers/basket-provider"
 import { useWishlist } from "@providers/wishlist-provider"
+import { useClickOutside } from '@mantine/hooks';
 
 import { DropDownMenu, DropDownItem } from "../dropdown/dropdown"
 import {
@@ -27,6 +28,7 @@ const Header = () => {
     const { BasketState, setBasketState } = useBasket()
     const { WishlistState, setWishlistState } = useWishlist()
     const [dropdown, setDropdown] = useState(false)
+    const dropdownRef = useClickOutside(() => setDropdown(false))
     const hideDropDown = () => setDropdown(false)
     const navigate = useNavigate()
 
@@ -99,12 +101,12 @@ const Header = () => {
                                         }
                                         Account
                                     </span>
-                                    {UserState._id && dropdown && <DropDownMenu>
+                                    {UserState._id && dropdown && <DropDownMenu ref={dropdownRef} >
                                         <Link to="/"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Profile</DropDownItem></Link>
                                         <DropDownItem onClick={() => { logout(); hideDropDown(); }} className={styles.logout}><MdPowerSettingsNew />Sign out</DropDownItem>
                                     </DropDownMenu>
                                     }
-                                    {!UserState._id && dropdown && <DropDownMenu>
+                                    {!UserState._id && dropdown && <DropDownMenu ref={dropdownRef}>
                                         <Link to="/signin"><DropDownItem onClick={hideDropDown}>Sign In</DropDownItem></Link>
                                         <Link to="/signup"><DropDownItem onClick={hideDropDown}>Sign Up</DropDownItem></Link>
                                     </DropDownMenu>

@@ -15,7 +15,6 @@ const Shop = () => {
     const { FilterState: { filter } } = useFilter()
     const { addToBasket } = useBasket()
     const { addToWishlist } = useWishlist()
-    console.log(filteredProducts)
     return (
         <section className={styles.container}>
             <aside className={styles.filter__wrapper}>
@@ -34,8 +33,8 @@ const Shop = () => {
 
                     : filteredProducts.map((item, i) => {
                         return (
-                            <ProductWrapper key={item._id}>
-                                <ProductImage src={require(`@assets/images/${item.img}`)} alt='product' badge={{ text: '30% Off', color: 'yellow' }} />
+                            <ProductWrapper key={item._id} isOutStock={item.stock === "0"}>
+                                <ProductImage src={require(`@assets/images/${item.img}`)} alt='product' badge={item.badge} />
                                 <ProductBody
                                     title={item.title}
                                     description={item.description}

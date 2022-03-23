@@ -12,7 +12,7 @@ const PopularProducts = () => {
         products.slice(0, 10).map((item, i) => {
             return (
                 <ProductWrapper key={item._id}>
-                    <ProductImage src={require(`@assets/images/${item.img}`)} alt='product' badge={{ text: '30% Off', color: 'yellow' }} />
+                    <ProductImage src={require(`@assets/images/${item.img}`)} alt='product' badge={item.badge} />
                     <ProductBody
                         title={item.title}
                         description={item.description}

@@ -1,14 +1,16 @@
 import styles from "./dropdown.module.scss"
 import { Link } from "react-router-dom"
-const DropDownMenu = ({ children }) => {
+import { forwardRef } from "react"
+
+const DropDownMenu = forwardRef(({ children }, ref) => {
     return (
-        <div className={styles.container}>
+        <div ref={ref} className={styles.container}>
             <ul>
                 {children}
             </ul>
         </div>
     )
-}
+})
 
 const DropDownItem = ({ onClick, className, children }) => {
     return (

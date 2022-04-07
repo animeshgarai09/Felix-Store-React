@@ -7,7 +7,7 @@ import axios from "axios"
 const WishlistContext = createContext()
 
 const WishlistProvider = ({ children }) => {
-    const encodedToken = localStorage.getItem("felix-user-token");
+    const encodedToken = localStorage.getItem("felix-store-user-token");
     const [WishlistState, setWishlistState] = useState([])
     const toast = useToast()
     const navigate = useNavigate()

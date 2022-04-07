@@ -51,7 +51,7 @@ const Signin = ({ signInRef }) => {
             })
 
             setTimeout(() => {
-                localStorage.setItem("felix-user-token", response.data.encodedToken)
+                localStorage.setItem("felix-store-user-token", response.data.encodedToken)
                 SetUserDetails(user, response.data.encodedToken)
                 navigate(redirect, { replace: true })
             }, 500)

@@ -37,10 +37,10 @@ const Signup = ({ signUpRef }) => {
                 duration: 2
             })
             setTimeout(() => {
-                navigate("/")
-                localStorage.setItem("felix-user-token", response.data.encodedToken)
+                localStorage.setItem("felix-store-user-token", response.data.encodedToken)
                 SetUserDetails(user, response.data.encodedToken)
-            }, 1000)
+                navigate("/shop")
+            }, 500)
         }).catch((err) => {
             setBtnState(false)
             toast({

@@ -7,7 +7,7 @@ import axios from "axios"
 const BasketContext = createContext()
 
 const BasketProvider = ({ children }) => {
-    const encodedToken = localStorage.getItem("felix-user-token");
+    const encodedToken = localStorage.getItem("felix-store-user-token");
     const [BasketState, setBasketState] = useState([])
     const toast = useToast()
     const navigate = useNavigate()

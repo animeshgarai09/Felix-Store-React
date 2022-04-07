@@ -3,6 +3,7 @@ import { AuthReducer } from "../reducers/auth-reducer"
 import axios from "axios"
 import { useBasket } from "./basket-provider"
 import { useWishlist } from "./wishlist-provider"
+import { useNavigate } from "react-router-dom"
 
 const AuthContext = createContext()
 
@@ -18,9 +19,10 @@ const AuthProvider = ({ children }) => {
     const [UserState, AuthDispatcher] = useReducer(AuthReducer, initialState)
     const { setBasketState } = useBasket()
     const { setWishlistState } = useWishlist()
+    const navigate = useNavigate()
 
     useEffect(() => {
-        const token = localStorage.getItem("felix-user-token")
+        const token = localStorage.getItem("felix-store-user-token")
         if (token) {
             axios.post("/api/auth/verify", {
                 encodedToken: token
@@ -39,6 +41,11 @@ const AuthProvider = ({ children }) => {
                 })
                 setBasketState(user.cart)
                 setWishlistState(user.wishlist)
+            }).catch((err) => {
+                AuthDispatcher({
+                    type: "REMOVE_USER"
+                })
+                navigate("/")
             })
         }
     }, [])

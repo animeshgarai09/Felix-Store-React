@@ -20,7 +20,6 @@ export const useSetUserDetails = () => {
     const { setWishlistState } = useWishlist()
 
     return (user, token) => {
-        console.log(user)
         AuthDispatcher({
             type: "SET_USER",
             payload: {

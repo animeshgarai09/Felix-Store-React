@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useToast } from 'react-felix-ui'
 import { useState } from 'react'
+import { checkWishListed } from "@global/js"
 import axios from "axios"
 
 const WishlistContext = createContext()
@@ -12,6 +13,16 @@ const WishlistProvider = ({ children }) => {
     const toast = useToast()
     const navigate = useNavigate()
     const location = useLocation()
+
+    const wishlistToggle = (item) => {
+        const isWislisted = checkWishListed(WishlistState, item._id)
+        if (isWislisted) {
+            removeFromWishlist(item._id)
+        }
+        else {
+            addToWishlist(item)
+        }
+    }
 
     const addToWishlist = (item) => {
         const checkPresence = WishlistState.filter((wItem => wItem._id === item._id))
@@ -32,7 +43,6 @@ const WishlistProvider = ({ children }) => {
                     duration: 2
                 })
             }).catch((err) => {
-                console.log(err)
                 toast({
                     status: "error",
                     message: "Sign in to your account first",
@@ -56,9 +66,12 @@ const WishlistProvider = ({ children }) => {
             },
         }).then((response) => {
             setWishlistState(response.data.wishlist);
-
+            toast({
+                status: "success",
+                message: "Item removed from your wishlist",
+                duration: 2
+            })
         }).catch(err => {
-            console.log(err);
             toast({
                 status: "error",
                 message: "Sign in to your account first",
@@ -68,7 +81,7 @@ const WishlistProvider = ({ children }) => {
         })
     }
     return (
-        <WishlistContext.Provider value={{ WishlistState, setWishlistState, addToWishlist, removeFromWishlist }}>
+        <WishlistContext.Provider value={{ WishlistState, setWishlistState, wishlistToggle, addToWishlist, removeFromWishlist }}>
             {children}
         </WishlistContext.Provider>
     )

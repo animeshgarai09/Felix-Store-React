@@ -5,5 +5,5 @@ import Product from "./product/product";
 import Shop from "./shop/shop";
 import Wishlist from "./wishlist/wishlist";
 import Error404 from "./404/404";
-
-export { Authentication, Basket, Home, Product, Shop, Wishlist, Error404 }
+import Account from "./account/account";
+export { Authentication, Basket, Home, Product, Shop, Wishlist, Account, Error404 }

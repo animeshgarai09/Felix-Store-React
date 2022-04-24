@@ -15,10 +15,10 @@
 }
 .product__container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    grid-template-rows: repeat(auto-fill, 27rem);
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
     gap: 1.4rem;
     flex: 1;
+    height: max-content;
     .small {
         .card__image {
             min-width: 13rem;

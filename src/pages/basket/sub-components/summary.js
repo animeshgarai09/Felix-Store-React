@@ -4,16 +4,16 @@ import { IoMdPricetag } from "@icons"
 import { useBasket } from "@providers/basket-provider"
 import { useState, useEffect } from "react"
 
-const Summary = () => {
+const Summary = ({ itemCount }) => {
     const { BasketState } = useBasket()
     const [MRP, setMRP] = useState(0)
     const [discount, setDiscount] = useState(0)
     const [total, setTotal] = useState(0)
-
     useEffect(() => {
-        const mrp = BasketState.reduce((prev, current) => parseInt(prev) + parseInt(current.price), 0)
-        const total = BasketState.reduce((prev, current) => parseInt(prev) + parseInt(current.currentPrice), 0)
+        const mrp = BasketState.reduce((prev, current) => parseInt(prev) + (parseInt(current.price) * current.qty), 0)
+        const total = BasketState.reduce((prev, current) => parseInt(prev) + (parseInt(current.currentPrice) * current.qty), 0)
         const discount = mrp - total
+
         setMRP(mrp)
         setDiscount(discount)
         setTotal(total)
@@ -24,9 +24,8 @@ const Summary = () => {
             <div className={`${styles.coupon_container} text-w-500`}>
                 <span><IoMdPricetag />Apply Coupon</span>
                 <Button size="sm" variant="outline" isTransform={false}>Apply</Button>
-
             </div>
-            <h6>Price Details ({BasketState.length} Items)</h6>
+            <h6>Price Details ({itemCount} Items)</h6>
             <div className={styles.order}>
                 <div className={styles.breakup}>
                     <div className={styles.item}>

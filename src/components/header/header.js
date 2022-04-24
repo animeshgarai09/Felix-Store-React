@@ -102,7 +102,7 @@ const Header = () => {
                                         Account
                                     </span>
                                     {UserState._id && dropdown && <DropDownMenu ref={dropdownRef} >
-                                        <Link to="/"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Profile</DropDownItem></Link>
+                                        <Link to="/account"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Account</DropDownItem></Link>
                                         <DropDownItem onClick={() => { logout(); hideDropDown(); }} className={styles.logout}><MdPowerSettingsNew />Sign out</DropDownItem>
                                     </DropDownMenu>
                                     }

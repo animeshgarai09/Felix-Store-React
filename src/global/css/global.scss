@@ -42,11 +42,18 @@ main {
 .like-btn {
     width: 2rem;
     height: 2rem;
-    color: var(--clr-red);
-    background: #ededed;
     border-radius: 5px;
-    &:hover {
-        background: #e2e2e2;
+    color: var(--clr-red);
+    border: 1px solid #ebebeb;
+    @media (hover: hover) {
+        &:hover {
+            background: #f4f4f4;
+            color: var(--clr-red);
+            transform: scale(1.1);
+        }
+    }
+    &:active {
+        transform: scale(0.9);
     }
 }
 
@@ -102,4 +109,16 @@ main {
     opacity: 1;
     -webkit-transform: scale(1);
     transform: scale(1);
+}
+
+.loading {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        width: 4rem;
+        height: 4rem;
+    }
 }

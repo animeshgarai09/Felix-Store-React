@@ -4,7 +4,6 @@ import { useAuth } from '@providers/auth-provider'
 const RequireAuth = () => {
     const { UserState } = useAuth()
     const location = useLocation()
-    console.log(UserState, "auth load")
     return (
         UserState._id
             ? <Outlet />

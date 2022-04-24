@@ -8,8 +8,8 @@ import Signup from "./sub-components/signup";
 const Authentication = () => {
     const { pathname } = useLocation()
     const [slider, setSlider] = useState(false);
-    const signUpRef = useRef(null)
-    const signInRef = useRef(null)
+    const [signUpRef, setSignUpRef] = useState(null)
+    const [signInRef, setSignInRef] = useState(null)
 
     useEffect(() => {
         if (pathname === "/signup") {
@@ -20,11 +20,10 @@ const Authentication = () => {
     }, [pathname])
 
     useEffect(() => {
-        console.log(signUpRef, signInRef)
         if (pathname === "/signup") {
-            signUpRef?.current?.focus()
+            // signUpRef?.focus()
         } else {
-            signInRef?.current?.focus()
+            signInRef?.focus()
         }
     }, [pathname, signUpRef, signInRef])
     return (
@@ -34,8 +33,8 @@ const Authentication = () => {
 
                 <div className={styles.sub_container}>
                     <div className={`${styles.wrapper} ${slider ? styles.active : ""}`}>
-                        <Signin signUpRef={signUpRef} />
-                        <Signup signInRef={signInRef} />
+                        <Signin ref={setSignInRef} />
+                        <Signup ref={setSignUpRef} />
                     </div>
                 </div>
             </section>

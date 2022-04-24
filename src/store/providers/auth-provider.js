@@ -1,10 +1,10 @@
-import { createContext, useContext, useReducer, useEffect } from "react"
+import { createContext, useContext, useReducer, useEffect, useState } from "react"
 import { AuthReducer } from "../reducers/auth-reducer"
 import axios from "axios"
 import { useBasket } from "./basket-provider"
 import { useWishlist } from "./wishlist-provider"
 import { useNavigate } from "react-router-dom"
-
+import loader from "@assets/images/loading.gif"
 const AuthContext = createContext()
 
 const initialState = {
@@ -19,6 +19,9 @@ const AuthProvider = ({ children }) => {
     const [UserState, AuthDispatcher] = useReducer(AuthReducer, initialState)
     const { setBasketState } = useBasket()
     const { setWishlistState } = useWishlist()
+
+    const [load, setLoad] = useState(false)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -41,17 +44,27 @@ const AuthProvider = ({ children }) => {
                 })
                 setBasketState(user.cart)
                 setWishlistState(user.wishlist)
+                setLoad(true)
             }).catch((err) => {
                 AuthDispatcher({
                     type: "REMOVE_USER"
                 })
-                navigate("/")
+                setLoad(true)
             })
+        }
+        else {
+            setLoad(true)
         }
     }, [])
     return (
         <AuthContext.Provider value={{ UserState, AuthDispatcher }}>
-            {children}
+            {
+                load ?
+                    children
+                    : <div className="loading">
+                        <img src={loader} alt="" />
+                    </div>
+            }
         </AuthContext.Provider>
     )
 }

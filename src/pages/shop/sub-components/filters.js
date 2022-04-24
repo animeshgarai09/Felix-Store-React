@@ -14,7 +14,7 @@ const Filters = () => {
         <div className={`${styles.side} ${styles.filter__container}`}>
             <div className={styles.control}>
                 <h5>Filters</h5>
-                <Button size="xs" variant="ghost" onClick={handleClearFilter} isRound={true} isTransform={false} theme="danger">Clear All</Button>
+                <Button size="xs" variant="ghost" onClick={handleClearFilter} isRound={true} isTransform={false} color="danger">Clear All</Button>
             </div>
             <div className={styles.range_container}>
                 <RangeSlider min={1} max={1000} setMin={priceLow} setMax={priceHigh} onMouseUp={(range) => handlePriceRangeChange(range)} />

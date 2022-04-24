@@ -6,9 +6,9 @@ import { FaChevronRight } from "@icons"
 import axios from "axios";
 import { useToast } from "react-felix-ui"
 import { useInputHandler, useSetUserDetails } from "@hooks"
-import { useState } from "react"
+import { forwardRef, useState } from "react"
 
-const Signin = ({ signInRef }) => {
+const Signin = forwardRef((props, ref) => {
 
 
     const navigate = useNavigate()
@@ -30,7 +30,6 @@ const Signin = ({ signInRef }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         setSubmitState(true)
-        console.log(event.target.type)
         handleSignIn(inputState.email, inputState.password, from, setSubmitState)
     }
 
@@ -70,7 +69,7 @@ const Signin = ({ signInRef }) => {
                 <Link to="/signup"><Button size="sm" variant="ghost" isRound={true} isTransform={false} >Sign up <FaChevronRight /> </Button></Link>
             </div>
             <form onSubmit={handleSubmit}>
-                <Input type="email" label="Email" name="email" value={inputState.email} Fref={signInRef} onChange={inputChange} />
+                <Input type="email" label="Email" name="email" value={inputState.email} ref={ref} onChange={inputChange} />
                 <Input type="password" label="Password" name="password" value={inputState.password} onChange={inputChange} />
                 <div className={styles.checkbox}>
                     <input id="check" type="checkbox" />
@@ -78,12 +77,12 @@ const Signin = ({ signInRef }) => {
                 </div>
                 <div className={styles.form_buttons}>
                     <Button type="submit" isWide={true} isTransform={false} isLoading={submitState}>Sign in</Button>
-                    <Button theme="gray" onClick={handleGuest} isWide={true} isTransform={false} isLoading={guestState}>Sign in as a guest</Button>
+                    <Button color="gray" onClick={handleGuest} isWide={true} isTransform={false} isLoading={guestState}>Sign in as a guest</Button>
                     <a href="#" className="text-center"> Forgot password?</a>
                 </div>
             </form>
         </div>
     )
-}
+})
 
 export default Signin

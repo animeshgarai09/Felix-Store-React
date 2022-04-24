@@ -56,7 +56,6 @@ const BasketProvider = ({ children }) => {
         }).then((response) => {
             setBasketState(response.data.cart);
         }).catch(err => {
-            console.log(err);
             toast({
                 status: "error",
                 message: "Sign in to your account first",
@@ -78,7 +77,6 @@ const BasketProvider = ({ children }) => {
                 duration: 2
             })
         }).catch(err => {
-            console.log(err);
             toast({
                 status: "error",
                 message: "Sign in to your account first",
@@ -87,27 +85,30 @@ const BasketProvider = ({ children }) => {
             navigate('/signin', { state: { from: location } })
         })
     }
-    // const changeCartQty = async (quantity, id) => {
-    //         await axios.post(
-    //             `/api/user/cart/${id}`,
-    //             {
-    //                 qty: quantity,
-    //             },
-    //             {
-    //                 headers: {
-    //                     authorization: encodedToken,
-    //                 },
-    //             }
-    //         );
-    //         if (response.status === 200) {
-    //             setBasketState(response.data.cart);
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+
+    const updateProductQty = (actionType, id) => {
+        axios.post(`/api/user/cart/${id}`, {
+            action: {
+                type: actionType === "INC" ? "increment" : "decrement",
+            }
+        }, {
+            headers: {
+                authorization: encodedToken,
+            },
+        }).then(response => {
+            setBasketState(response.data.cart);
+        }).catch(err => {
+            toast({
+                status: "error",
+                message: "Sign in to your account first",
+                duration: 2
+            })
+            navigate('/signin', { state: { from: location } })
+        })
+    };
+
     return (
-        <BasketContext.Provider value={{ BasketState, setBasketState, addToBasket, removeFromBasket, removeAllFromBasket }}>
+        <BasketContext.Provider value={{ BasketState, setBasketState, addToBasket, updateProductQty, removeFromBasket, removeAllFromBasket }}>
             {children}
         </BasketContext.Provider>
     )

@@ -2,7 +2,6 @@
     width: 91.3333vw;
     margin: 0 auto;
     min-height: calc(100vh - 100px);
-
     .wrapper {
         display: flex;
         gap: 2rem;
@@ -76,4 +75,12 @@
             }
         }
     }
+}
+
+.actions {
+    margin-top: 2rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
 }

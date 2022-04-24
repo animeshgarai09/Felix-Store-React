@@ -11,7 +11,7 @@ export const productCountByCategory = (products, categories) => {
 
 export const fetchFilterStateFromParams = (params) => {
     const init = {
-        filter: false,
+        filter: "idle",
         sortBy: null,
         categories: [],
         priceLow: 1,
@@ -23,11 +23,6 @@ export const fetchFilterStateFromParams = (params) => {
 const reducer = (prev, current) => {
     const [key, value] = current
     switch (key) {
-        case "filter":
-            return {
-                ...prev,
-                filter: value
-            }
         case "categories":
             return {
                 ...prev,

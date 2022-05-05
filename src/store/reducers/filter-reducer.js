@@ -1,6 +1,4 @@
 export const FilterReducer = (state, { type, payload }) => {
-    console.log("triggered", type, payload)
-
     switch (type) {
         case "FILTER_BY_SORT":
             return { ...state, sortBy: payload }

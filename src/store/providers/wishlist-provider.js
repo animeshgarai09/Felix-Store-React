@@ -59,18 +59,25 @@ const WishlistProvider = ({ children }) => {
         }
     };
 
-    const removeFromWishlist = (id) => {
+    const removeFromWishlist = (id, { alert }) => {
         axios.delete(`/api/user/wishlist/${id}`, {
             headers: {
                 authorization: encodedToken,
             },
         }).then((response) => {
             setWishlistState(response.data.wishlist);
-            toast({
-                status: "success",
-                message: "Item removed from your wishlist",
-                duration: 2
-            })
+            switch (alert) {
+                case "no-alert":
+                    break
+                default:
+                    toast({
+                        status: "success",
+                        message: "Item removed from your wishlist",
+                        duration: 2
+                    })
+                    break
+            }
+
         }).catch(err => {
             toast({
                 status: "error",

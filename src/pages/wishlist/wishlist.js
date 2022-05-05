@@ -10,8 +10,8 @@ const Wishlist = () => {
     const { addToBasket } = useBasket()
 
     const handleMoveToBasket = (item) => () => {
-        removeFromWishlist(item._id)
-        addToBasket(item)
+        removeFromWishlist(item._id, { alert: "no-alert" })
+        addToBasket(item, { alert: "move" })
     }
     return (
         <section className={styles.container}>

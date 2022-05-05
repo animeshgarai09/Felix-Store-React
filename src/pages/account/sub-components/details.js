@@ -1,13 +1,19 @@
 import styles from "../account.module.scss"
 import { Button } from "react-felix-ui"
+import { useAuth } from "@providers/auth-provider"
+import DetailsModal from "./modals/details-modal"
+import { useState } from "react"
+
 const Details = () => {
+    const [isModalOpen, setModalState] = useState(false)
+    const { UserState } = useAuth()
     return (
         <div className={styles.details}>
             <div className={styles.page_header}>
                 <h4>Account Details</h4>
                 <div className={styles.actions}>
                     <Button size="sm" variant="ghost">Change Password</Button>
-                    <Button size="sm" variant="ghost">Edit Details</Button>
+                    <Button size="sm" variant="ghost" onClick={() => setModalState(true)}>Edit Details</Button>
                 </div>
             </div>
 
@@ -17,19 +23,19 @@ const Details = () => {
                     <tbody>
                         <tr>
                             <td>Full Name</td>
-                            <td>Animesh Garai</td>
+                            <td>{UserState.name}</td>
                         </tr>
                         <tr>
                             <td>Gender</td>
-                            <td>Male</td>
+                            <td>{UserState.gender || "---.---"}</td>
                         </tr>
                         <tr>
                             <td>Location</td>
-                            <td>Pune</td>
+                            <td>{UserState.location || "---.---"}</td>
                         </tr>
                         <tr>
                             <td>Joined On</td>
-                            <td>12 August 2020</td>
+                            <td>{UserState.createdAt}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -41,16 +47,16 @@ const Details = () => {
                     <tbody>
                         <tr>
                             <td>Mobile Number</td>
-                            <td>9800980098</td>
+                            <td>{UserState.mobileNum || "---.---"}</td>
                         </tr>
                         <tr>
                             <td>Email ID</td>
-                            <td>testing@gmail.com</td>
+                            <td>{UserState.email}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
+            <DetailsModal isOpen={isModalOpen} onClose={() => setModalState(false)} />
         </div>
     )
 }

@@ -8,35 +8,58 @@ import { v4 as uuid } from "uuid";
  * Client needs to add "authorization" header with JWT token in it to access it.
  * */
 
-/**
- * This handler handles getting items to user's address.
- * send GET Request at /api/user/address
- * */
-export const getAddressHandler = function (schema, request) {
+export const placeOrder = function (schema, request) {
     const userId = requiresAuth.call(this, request);
-    if (!userId) {
-        new Response(
-            404,
+    try {
+        if (!userId) {
+            new Response(
+                404,
+                {},
+                {
+                    errors: ["The email you entered is not Registered. Not Found error"],
+                }
+            );
+        }
+        const orders = schema.users.findBy({
+            _id: userId,
+        }).orders || []
+
+        const { order } = JSON.parse(request.requestBody);
+
+        orders.push({
+            ...order,
+            _id: uuid(),
+            createdAt: formatDate(),
+            updatedAt: formatDate(),
+        })
+
+        this.db.users.update(
+            {
+                _id: userId,
+            },
+            {
+                orders: orders,
+            }
+        );
+        return new Response(
+            201,
             {},
             {
-                errors: ["The email you entered is not Registered. Not Found error"],
+                orders: orders,
+            }
+        );
+    } catch (error) {
+        return new Response(
+            500,
+            {},
+            {
+                error,
             }
         );
     }
-    const userAddress = schema.users.findBy({
-        _id: userId,
-    }).address;
-    return new Response(
-        200,
-        {},
-        {
-            address: userAddress,
-        }
-    );
-};
-
+}
 /**
- * This handler handles adding new address to user's address.
+ * This handler handles adding new address to user's addresses.
  * send POST Request at /api/user/address
  * */
 
@@ -52,29 +75,36 @@ export const addAddressHandler = function (schema, request) {
                 }
             );
         }
-        const userAddress = schema.users.findBy({
+        const userAddresses = schema.users.findBy({
             _id: userId,
-        }).address;
+        }).addresses || []
         const { address } = JSON.parse(request.requestBody);
-        userAddress.push({
+
+        if (address.status) {
+            userAddresses.map((item) => item.status = false)
+        }
+        userAddresses.push({
             ...address,
             _id: uuid(),
             createdAt: formatDate(),
             updatedAt: formatDate(),
+            status: userAddresses.length === 0 ? true : address.status
         });
+
+
         this.db.users.update(
             {
                 _id: userId,
             },
             {
-                address: userAddress,
+                addresses: userAddresses,
             }
         );
         return new Response(
             201,
             {},
             {
-                address: userAddress,
+                addresses: userAddresses,
             }
         );
     } catch (error) {
@@ -93,7 +123,7 @@ export const addAddressHandler = function (schema, request) {
  * send DELETE Request at /api/user/address/:addressId
  * */
 
-export const removeAddressHandler = function (schema, request) {
+export const deleteAddressHandler = function (schema, request) {
     const userId = requiresAuth.call(this, request);
     try {
         if (!userId) {
@@ -105,26 +135,29 @@ export const removeAddressHandler = function (schema, request) {
                 }
             );
         }
-        let userAddress = schema.users.findBy({
+        let userAddresses = schema.users.findBy({
             _id: userId,
-        }).address;
+        }).addresses;
 
         const addressId = request.params.addressId;
 
-        userAddress = userAddress.filter((item) => item._id !== addressId);
+        userAddresses = userAddresses.filter((item) => item._id !== addressId);
+        if (userAddresses.length === 1) {
+            userAddresses[0].status = true
+        }
         this.db.users.update(
             {
                 _id: userId,
             },
             {
-                address: userAddress,
+                addresses: userAddresses,
             }
         );
         return new Response(
             200,
             {},
             {
-                address: userAddress,
+                addresses: userAddresses,
             }
         );
     } catch (error) {
@@ -156,39 +189,37 @@ export const updateAddressHandler = function (schema, request) {
                 }
             );
         }
-        const userAddress = schema.users.findBy({
+
+        let userAddresses = schema.users.findBy({
             _id: userId,
-        }).address;
+        }).addresses;
 
-        const {
-            address: { name, street, city, state, country, zipCode, mobile },
-        } = JSON.parse(request.requestBody);
+        const { address } = JSON.parse(request.requestBody);
 
-        userAddress.forEach((address) => {
-            if (address._id === addressId) {
-                address.name = name;
-                address.street = street;
-                address.city = city;
-                address.state = state;
-                address.country = country;
-                address.zipCode = zipCode;
-                address.mobile = mobile;
-                address.updatedAt = formatDate();
+        userAddresses = userAddresses.map((item) => {
+            let temp = item;
+            if (item._id === addressId) {
+                temp = { ...address, updatedAt: formatDate() }
             }
+            if (address.status === true && item._id !== addressId) {
+                temp.status = false
+            }
+            return temp
         });
+
         this.db.users.update(
             {
                 _id: userId,
             },
             {
-                address: userAddress,
+                addresses: userAddresses,
             }
         );
         return new Response(
             200,
             {},
             {
-                address: userAddress,
+                addresses: userAddresses,
             }
         );
     } catch (error) {

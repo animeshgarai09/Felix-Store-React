@@ -5,18 +5,42 @@ import { useWishlist } from "@providers/wishlist-provider"
 export const useInputHandler = (state) => {
     const [inputState, setInputState] = useState(state)
     const inputChange = (evt) => {
+        const type = evt.target.type;
         const value = evt.target.value;
-        setInputState({
-            ...inputState,
-            [evt.target.name]: value
-        });
+        const name = evt.target.name
+        switch (type) {
+            case 'text':
+                setInputState({
+                    ...inputState,
+                    [name]: value
+                });
+                break
+            case 'checkbox':
+                if (value !== "on") {
+                    setInputState({
+                        ...inputState,
+                        [name]: value
+                    });
+                } else {
+
+                    setInputState({
+                        ...inputState,
+                        [name]: evt.target.checked
+                    });
+                }
+                break
+            default:
+                break
+        }
+
+
     }
-    return { inputState, inputChange }
+    return { inputState, inputChange, setInputState }
 }
 
 export const useSetUserDetails = () => {
     const { AuthDispatcher } = useAuth()
-    const { setBasketState } = useBasket()
+    const { BasketDispatcher } = useBasket()
     const { setWishlistState } = useWishlist()
 
     return (user, token) => {
@@ -31,7 +55,10 @@ export const useSetUserDetails = () => {
                 encodedToken: token
             }
         })
-        setBasketState(user.cart)
+        BasketDispatcher({
+            type: "SET_ITEMS",
+            payload: user.cart
+        })
         setWishlistState(user.wishlist)
     }
 }

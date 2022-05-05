@@ -5,7 +5,7 @@ import { RiShoppingBasket2Fill, RiHeartAddFill, RiUser6Fill } from "react-icons/
 import { IoLogoLinkedin, IoIosCall, IoMdPricetag } from 'react-icons/io'
 import { HiMail, HiOutlineLogout, HiOutlinePaperAirplane } from 'react-icons/hi'
 import { MdAdd, MdPowerSettingsNew } from 'react-icons/md'
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa'
+import { FaChevronRight, FaChevronLeft, FaRupeeSign } from 'react-icons/fa'
 
 export {
     AiFillShop,
@@ -20,6 +20,7 @@ export {
     BsThreeDotsVertical,
     FaChevronRight,
     FaChevronLeft,
+    FaRupeeSign,
     MdAdd,
     MdPowerSettingsNew,
     RiShoppingBasket2Fill,

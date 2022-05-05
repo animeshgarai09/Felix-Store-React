@@ -15,7 +15,6 @@ const useFilteredProducts = () => {
         FilterDispatcher({ type: "FILTER_STATUS", payload: "processing" })
         const { categories, sortBy, priceLow, priceHigh } = state ? init : FilterState;
 
-        console.log(FilterState)
         if (sortBy) {
             productList = sortProducts(productList, sortBy);
         }

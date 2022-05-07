@@ -66,7 +66,7 @@ const Signin = forwardRef((props, ref) => {
         <div className={styles.signin}>
             <div className={styles.heading}>
                 <h2>Sign in</h2>
-                <Link to="/signup"><Button size="sm" variant="ghost" isRound={true} isTransform={false} >Sign up <FaChevronRight /> </Button></Link>
+                <Link to="/signup"><Button size="sm" variant="ghost" isRound={true} isTransform={false} >Sign Up <FaChevronRight /> </Button></Link>
             </div>
             <form onSubmit={handleSubmit}>
                 <Input type="email" label="Email" name="email" value={inputState.email} ref={ref} onChange={inputChange} />

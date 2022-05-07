@@ -59,7 +59,7 @@ const WishlistProvider = ({ children }) => {
         }
     };
 
-    const removeFromWishlist = (id, { alert }) => {
+    const removeFromWishlist = (id, alert) => {
         axios.delete(`/api/user/wishlist/${id}`, {
             headers: {
                 authorization: encodedToken,

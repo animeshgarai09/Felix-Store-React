@@ -2,12 +2,16 @@ import styles from "../checkout.module.scss"
 import { Button } from "react-felix-ui"
 import Addresses from "../../account/sub-components/addresses"
 import { useState } from "react"
+import { Helmet } from "react-helmet"
 
 const CheckoutAddress = () => {
 
     const [isModalOpen, setModalState] = useState(false)
     return (
         <>
+            <Helmet>
+                <title>Checkout Address | Felix Store</title>
+            </Helmet>
             <div className={styles.item_container}>
                 <div className={styles.info}>
                     <div>

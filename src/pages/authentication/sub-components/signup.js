@@ -53,8 +53,8 @@ const Signup = forwardRef((props, ref) => {
     return (
         <div className={styles.signup}>
             <div className={styles.heading}>
-                <Link to="/signin"><Button size="sm" variant="ghost" isRound={true} isTransform={false} ><FaChevronLeft /> Sign up</Button></Link>
-                <h2>Sign up</h2>
+                <Link to="/signin"><Button size="sm" variant="ghost" isRound={true} isTransform={false} ><FaChevronLeft /> Sign In</Button></Link>
+                <h2>Sign Up</h2>
             </div>
             <form onSubmit={handleSubmit}>
                 <Input type="text" label="Full name" name="name" value={inputState.name} onChange={inputChange} ref={ref} />

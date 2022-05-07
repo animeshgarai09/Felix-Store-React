@@ -5,6 +5,7 @@ import { ProductWrapper, ProductBody, ProductImage, ProductActions, Button, Moda
 import { MdAdd } from "@icons"
 import { Counter } from "@components"
 import { useState } from "react"
+import { Helmet } from "react-helmet"
 
 const BasketItems = () => {
     const { BasketState: { items: BasketItems, itemsCount }, updateProductQty, removeFromBasket, removeAllFromBasket } = useBasket()
@@ -23,6 +24,9 @@ const BasketItems = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Basket | Felix Store</title>
+            </Helmet>
             <div className={styles.item_container}>
                 <div className={styles.info}>
                     <div>

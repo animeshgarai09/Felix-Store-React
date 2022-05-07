@@ -64,11 +64,7 @@ const BasketProvider = ({ children }) => {
                 navigate('/signin', { state: { from: location } }, { replace: true })
             })
         } else {
-            toast({
-                status: "error",
-                message: "Item is already in the basket",
-                duration: 1.5
-            })
+            updateProductQty("INC", item._id, "ADD_INC")
         }
     };
 
@@ -121,7 +117,7 @@ const BasketProvider = ({ children }) => {
         })
     }
 
-    const updateProductQty = (actionType, id) => {
+    const updateProductQty = (actionType, id, alert) => {
         axios.post(`/api/user/cart/${id}`, {
             action: {
                 type: actionType === "INC" ? "increment" : "decrement",
@@ -135,6 +131,18 @@ const BasketProvider = ({ children }) => {
                 type: "SET_ITEMS",
                 payload: response.data.cart
             })
+            switch (alert) {
+                case "ADD_INC":
+                    toast({
+                        status: "success",
+                        message: "Item added in your basket",
+                        duration: 2
+                    })
+                    break
+                default:
+                    break
+
+            }
         }).catch(err => {
             toast({
                 status: "error",

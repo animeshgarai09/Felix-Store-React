@@ -1,23 +1,28 @@
 import styles from "../account.module.scss"
 import { Image, Button } from "react-felix-ui"
 import { useAuth } from "@providers/auth-provider"
+import { UIformatDate } from "@global/js"
+import { Helmet } from "react-helmet"
 
 const Orders = () => {
     const { UserState: { orders } } = useAuth()
 
     return (
         <div className={styles.orders}>
+            <Helmet>
+                <title>My Orders | Felix Store</title>
+            </Helmet>
             <div className={styles.page_header}>
                 <h4>My Orders</h4>
                 <p>All the order placed by you is listed here.</p>
             </div>
             {
-                orders.map((order) => {
+                orders?.reverse().map((order) => {
                     return (<div className={styles.item}>
                         <div className={styles.item_info}>
                             <span>Order ID: {order._id}</span>
                             <div>
-                                <span>Placed on : {order.createdAt}</span>
+                                <span>Placed on : {UIformatDate(order.createdAt)}</span>
                                 <span className={styles.total}>Total : <span> ₹ {order.total}</span></span>
                             </div>
                         </div>

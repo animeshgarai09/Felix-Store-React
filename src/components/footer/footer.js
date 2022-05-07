@@ -17,7 +17,7 @@ const Footer = () => {
                 <a href="/"> <Logo className={styles.logo} alt="felix logo" /></a>
                 <span>Your one stop organic grocery store</span>
                 <span>© 2021, All rights reserved</span>
-                <span>Made with <AiFillHeart /> by <a href="https://portfolio-alpha-liart.vercel.app/" className="text-warning"> Animesh Garai</a> </span>
+                <span>Made with <AiFillHeart /> by <a href="https://animesh-designs.vercel.app/" className="text-warning"> Animesh Garai</a> </span>
                 <div className="footer__links">
                     <a href="https://github.com/animeshgarai09"><AiFillGithub /></a>
                     <a href="https://twitter.com/animeshgarai09"><AiFillTwitterCircle /></a>

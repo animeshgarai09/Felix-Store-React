@@ -1,21 +1,33 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useReducer } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useState } from 'react'
 import { useToast } from 'react-felix-ui'
+import { BasketReducer } from '../reducers/basket-reducer'
 import axios from "axios"
 
 const BasketContext = createContext()
 
+const init = {
+    items: [],
+    mrp: 0,
+    total: 0,
+    discount: 0,
+    itemsCount: 0,
+    address: "",
+}
 const BasketProvider = ({ children }) => {
     const encodedToken = localStorage.getItem("felix-store-user-token");
-    const [BasketState, setBasketState] = useState([])
+    const [BasketState, BasketDispatcher] = useReducer(BasketReducer, init)
     const toast = useToast()
     const navigate = useNavigate()
     const location = useLocation()
 
-    const addToBasket = (item) => {
-        const checkPresence = BasketState.filter((bItem => bItem._id === item._id))
-        if (checkPresence.length === 0) {
+    const checkPresence = (id) => {
+        return BasketState.items.some(bItem => {
+            return bItem._id === id
+        })
+    }
+    const addToBasket = (item, alert, isAdd) => {
+        if (!isAdd) {
             axios.post("/api/user/cart",
                 { product: item },
                 {
@@ -25,12 +37,28 @@ const BasketProvider = ({ children }) => {
                 }
             ).then((response) => {
 
-                setBasketState(response.data.cart);
-                toast({
-                    status: "success",
-                    message: "Item added in your basket",
-                    duration: 2
+                BasketDispatcher({
+                    type: "SET_ITEMS",
+                    payload: response.data.cart
                 })
+                switch (alert?.alert) {
+                    case "no-alert":
+                        break
+                    case "move":
+                        toast({
+                            status: "success",
+                            message: "Item moved to your basket",
+                            duration: 2
+                        })
+                        break
+                    default:
+                        toast({
+                            status: "success",
+                            message: "Item added in your basket",
+                            duration: 2
+                        })
+                        break
+                }
             }).catch((err) => {
                 toast({
                     status: "error",
@@ -40,11 +68,7 @@ const BasketProvider = ({ children }) => {
                 navigate('/signin', { state: { from: location } }, { replace: true })
             })
         } else {
-            toast({
-                status: "error",
-                message: "Item is already in the basket",
-                duration: 1.5
-            })
+            updateProductQty("INC", item._id, "ADD_INC")
         }
     };
 
@@ -54,9 +78,11 @@ const BasketProvider = ({ children }) => {
                 authorization: encodedToken,
             },
         }).then((response) => {
-            setBasketState(response.data.cart);
+            BasketDispatcher({
+                type: "SET_ITEMS",
+                payload: response.data.cart
+            })
         }).catch(err => {
-            console.log(err);
             toast({
                 status: "error",
                 message: "Sign in to your account first",
@@ -65,20 +91,27 @@ const BasketProvider = ({ children }) => {
             navigate('/signin', { state: { from: location } })
         })
     }
-    const removeAllFromBasket = () => {
+    const removeAllFromBasket = ({ alert }) => {
         axios.delete(`/api/user/cart`, {
             headers: {
                 authorization: encodedToken,
             },
         }).then((response) => {
-            setBasketState(response.data.cart);
-            toast({
-                status: "success",
-                message: "Removed all items from basket",
-                duration: 2
+            BasketDispatcher({
+                type: "EMPTY_BASKET",
             })
+            switch (alert) {
+                case "no-alert":
+                    break
+                default:
+                    toast({
+                        status: "success",
+                        message: "Removed all items from basket",
+                        duration: 2
+                    })
+                    break
+            }
         }).catch(err => {
-            console.log(err);
             toast({
                 status: "error",
                 message: "Sign in to your account first",
@@ -87,27 +120,46 @@ const BasketProvider = ({ children }) => {
             navigate('/signin', { state: { from: location } })
         })
     }
-    // const changeCartQty = async (quantity, id) => {
-    //         await axios.post(
-    //             `/api/user/cart/${id}`,
-    //             {
-    //                 qty: quantity,
-    //             },
-    //             {
-    //                 headers: {
-    //                     authorization: encodedToken,
-    //                 },
-    //             }
-    //         );
-    //         if (response.status === 200) {
-    //             setBasketState(response.data.cart);
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
+
+    const updateProductQty = (actionType, id, alert) => {
+        axios.post(`/api/user/cart/${id}`, {
+            action: {
+                type: actionType === "INC" ? "increment" : "decrement",
+            }
+        }, {
+            headers: {
+                authorization: encodedToken,
+            },
+        }).then(response => {
+            BasketDispatcher({
+                type: "SET_ITEMS",
+                payload: response.data.cart
+            })
+            switch (alert) {
+                case "ADD_INC":
+                    toast({
+                        status: "success",
+                        message: "Item added in your basket",
+                        duration: 2
+                    })
+                    break
+                default:
+                    break
+
+            }
+        }).catch(err => {
+            toast({
+                status: "error",
+                message: "Sign in to your account first",
+                duration: 2
+            })
+            navigate('/signin', { state: { from: location } })
+        })
+    };
+
+
     return (
-        <BasketContext.Provider value={{ BasketState, setBasketState, addToBasket, removeFromBasket, removeAllFromBasket }}>
+        <BasketContext.Provider value={{ BasketState, BasketDispatcher, checkPresence, addToBasket, updateProductQty, removeFromBasket, removeAllFromBasket }}>
             {children}
         </BasketContext.Provider>
     )

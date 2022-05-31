@@ -5,9 +5,9 @@ import { FaChevronLeft } from "@icons"
 import axios from "axios";
 import { useToast } from "react-felix-ui"
 import { useInputHandler, useSetUserDetails } from "@hooks"
-import { useState, useEffect } from "react"
+import { useState, forwardRef } from "react"
 
-const Signup = ({ signUpRef }) => {
+const Signup = forwardRef((props, ref) => {
 
 
     const navigate = useNavigate()
@@ -53,11 +53,11 @@ const Signup = ({ signUpRef }) => {
     return (
         <div className={styles.signup}>
             <div className={styles.heading}>
-                <Link to="/signin"><Button size="sm" variant="ghost" isRound={true} isTransform={false} ><FaChevronLeft /> Sign up</Button></Link>
-                <h2>Sign up</h2>
+                <Link to="/signin"><Button size="sm" variant="ghost" isRound={true} isTransform={false} ><FaChevronLeft /> Sign In</Button></Link>
+                <h2>Sign Up</h2>
             </div>
             <form onSubmit={handleSubmit}>
-                <Input type="text" label="Full name" name="name" value={inputState.name} onChange={inputChange} Fref={signUpRef} />
+                <Input type="text" label="Full name" name="name" value={inputState.name} onChange={inputChange} ref={ref} />
                 <Input type="email" label="Email" name="email" value={inputState.email} onChange={inputChange} />
                 <Input type="password" label="Password" name="password" value={inputState.password} onChange={inputChange} />
                 <div className={styles.checkbox}>
@@ -70,6 +70,6 @@ const Signup = ({ signUpRef }) => {
             </form>
         </div>
     )
-}
+})
 
 export default Signup

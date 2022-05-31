@@ -25,7 +25,7 @@ import {
 
 const Header = () => {
     const { UserState, AuthDispatcher } = useAuth();
-    const { BasketState, setBasketState } = useBasket()
+    const { BasketState: { items: BasketItems }, BasketDispatcher } = useBasket()
     const { WishlistState, setWishlistState } = useWishlist()
     const [dropdown, setDropdown] = useState(false)
     const dropdownRef = useClickOutside(() => setDropdown(false))
@@ -36,7 +36,9 @@ const Header = () => {
         AuthDispatcher({
             type: "REMOVE_USER"
         })
-        setBasketState([])
+        BasketDispatcher({
+            type: "EMPTY_BASKET",
+        })
         setWishlistState([])
         navigate("/")
     }
@@ -88,8 +90,8 @@ const Header = () => {
                                     </Link>
                                 </ListItem>
                                 <ListItem>
-                                    <Link to="/basket" className={styles.link}>
-                                        <IconButton icon={<RiShoppingBasket2Fill />} className={styles.icon} showBadge={BasketState.length !== 0} badgeNumber={BasketState.length} />
+                                    <Link to="/checkout/basket" className={styles.link}>
+                                        <IconButton icon={<RiShoppingBasket2Fill />} className={styles.icon} showBadge={BasketItems.length !== 0} badgeNumber={BasketItems.length} />
                                         Basket
                                     </Link>
                                 </ListItem>
@@ -102,7 +104,7 @@ const Header = () => {
                                         Account
                                     </span>
                                     {UserState._id && dropdown && <DropDownMenu ref={dropdownRef} >
-                                        <Link to="/"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Profile</DropDownItem></Link>
+                                        <Link to="/account"><DropDownItem onClick={hideDropDown}><RiUser6Fill />My Account</DropDownItem></Link>
                                         <DropDownItem onClick={() => { logout(); hideDropDown(); }} className={styles.logout}><MdPowerSettingsNew />Sign out</DropDownItem>
                                     </DropDownMenu>
                                     }

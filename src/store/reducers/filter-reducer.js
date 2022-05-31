@@ -1,14 +1,16 @@
 export const FilterReducer = (state, { type, payload }) => {
     switch (type) {
         case "FILTER_BY_SORT":
-            return { ...state, filter: true, sortBy: payload }
+            return { ...state, sortBy: payload }
         case "FILTER_BY_CATEGORY":
-            return { ...state, filter: true, categories: payload }
+            return { ...state, categories: payload }
         case "FILTER_BY_PRICE_RANGE":
-            return { ...state, filter: true, priceLow: payload.min, priceHigh: payload.max }
+            return { ...state, priceLow: payload.min, priceHigh: payload.max }
+        case "FILTER_STATUS":
+            return { ...state, filter: payload }
         case "CLEAR_FILTERS":
             return {
-                filter: false,
+                filter: "idle",
                 sortBy: null,
                 categories: [],
                 priceLow: 1,

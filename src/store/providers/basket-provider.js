@@ -21,9 +21,13 @@ const BasketProvider = ({ children }) => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const addToBasket = (item, alert) => {
-        const checkPresence = BasketState.items.filter((bItem => bItem._id === item._id))
-        if (checkPresence.length === 0) {
+    const checkPresence = (id) => {
+        return BasketState.items.some(bItem => {
+            return bItem._id === id
+        })
+    }
+    const addToBasket = (item, alert, isAdd) => {
+        if (!isAdd) {
             axios.post("/api/user/cart",
                 { product: item },
                 {
@@ -155,7 +159,7 @@ const BasketProvider = ({ children }) => {
 
 
     return (
-        <BasketContext.Provider value={{ BasketState, BasketDispatcher, addToBasket, updateProductQty, removeFromBasket, removeAllFromBasket }}>
+        <BasketContext.Provider value={{ BasketState, BasketDispatcher, checkPresence, addToBasket, updateProductQty, removeFromBasket, removeAllFromBasket }}>
             {children}
         </BasketContext.Provider>
     )

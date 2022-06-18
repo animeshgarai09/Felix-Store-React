@@ -18,7 +18,7 @@ const BasketItems = () => {
     }
 
     const handleRemoveAll = () => {
-        removeAllFromBasket()
+        removeAllFromBasket("removed")
         setModal(false)
     }
 

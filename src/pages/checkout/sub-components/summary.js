@@ -34,10 +34,10 @@ const Summary = ({ payment }) => {
     }
     return (
         <>
-            <div className={`${styles.coupon_container} text-w-500`}>
+            {/* <div className={`${styles.coupon_container} text-w-500`}>
                 <span><IoMdPricetag />Apply Coupon</span>
                 <Button size="sm" variant="outline" isTransform={false}>Apply</Button>
-            </div>
+            </div> */}
             <h6>Price Details ({itemsCount} Items)</h6>
             <div className={styles.order}>
                 <div className={styles.breakup}>

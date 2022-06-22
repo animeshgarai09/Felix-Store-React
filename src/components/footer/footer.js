@@ -1,6 +1,6 @@
 import styles from "./footer.module.scss"
 import { ReactComponent as Logo } from '@assets/svg/logo.svg'
-
+import { Link } from "react-router-dom"
 import {
     AiFillGithub,
     AiFillTwitterCircle,
@@ -29,21 +29,21 @@ const Footer = () => {
             <div className={styles.footer_item}>
                 <h5>Categories</h5>
                 <ul className="links list-style-none">
-                    <li><a href="#">Vegetables</a></li>
-                    <li><a href="#">Fruits</a></li>
-                    <li><a href="#">Organic Products</a></li>
-                    <li><a href="#">Plants</a></li>
-                    <li><a href="#">Groceries</a></li>
+                    <li><Link to="/shop?categories=vegetables">Vegetables</Link></li>
+                    <li><Link to="/shop?categories=fruits">Fruits</Link></li>
+                    <li><Link to="/shop?categories=organic+products">Organic Products</Link></li>
+                    <li><Link to="/shop?categories=plants">Plants</Link></li>
+                    <li><Link to="/shop?categories=groceries">Groceries</Link></li>
                 </ul>
             </div>
             <div className={styles.footer_item}>
                 <h5>Account</h5>
                 <ul className="links list-style-none">
-                    <li><a href="#">My Account</a></li>
-                    <li><a href="#">Wishlist</a></li>
-                    <li><a href="#">View Basket</a></li>
-                    <li><a href="#">Track Order</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
+                    <li><Link to="/account">My Account</Link></li>
+                    <li><Link to="/wishlist">Wishlist</Link></li>
+                    <li><Link to="/basket">View Basket</Link></li>
+                    <li><Link to="#">Track Order</Link></li>
+                    <li><Link to="#">Privacy Policy</Link></li>
                 </ul>
             </div>
             <div className={`${styles.footer_item} ${styles.info}`}>

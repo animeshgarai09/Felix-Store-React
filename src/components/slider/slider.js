@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 const Slider = () => {
     return (
         <div className={styles.container}>
-            <span className={`${styles.icon} ${styles.left}`}><FaChevronLeft /></span>
+            {/* <span className={`${styles.icon} ${styles.left}`}><FaChevronLeft /></span> */}
             <div className={styles.content}>
                 <h1>
                     Fresh Vegetables <br />
@@ -14,7 +14,7 @@ const Slider = () => {
                 <p>Save 50% on your first purchase</p>
                 <Link to="/shop"> <Button size="lg">Shop now</Button></Link>
             </div>
-            <span className={`${styles.icon} ${styles.right}`}><FaChevronRight /></span>
+            {/* <span className={`${styles.icon} ${styles.right}`}><FaChevronRight /></span> */}
         </div>
     )
 }

@@ -6,7 +6,7 @@ import Features from "./sub-components/features"
 import Categories from "./sub-components/categories"
 import PopularProducts from "./sub-components/populer-products"
 import Deals from "./sub-components/deals"
-
+import { Link } from "react-router-dom"
 const Home = () => {
     return (
         <div className={styles.landing}>
@@ -33,22 +33,34 @@ const Home = () => {
                     <h2>Popular products</h2>
                     <List orientation="horizontal" className="nav list-style-none" role="tablist">
                         <ListItem className="nav-item" role="presentation">
-                            <Button variant="link" size="sm" type="Button" role="tab">All</Button>
+                            <Link to="/shop">
+                                <Button variant="link" size="sm" type="Button" role="tab">All</Button>
+                            </Link>
                         </ListItem>
                         <ListItem className="nav-item" role="presentation">
-                            <Button variant="link" size="sm" type="Button" role="tab">Vegetables</Button>
+                            <Link to="/shop?categories=vegetables">
+                                <Button variant="link" size="sm" type="Button" role="tab">Vegetables</Button>
+                            </Link>
                         </ListItem>
                         <ListItem className="nav-item" role="presentation">
-                            <Button variant="link" size="sm" type="Button" role="tab">Fruits</Button>
+                            <Link to="/shop?categories=fruits">
+                                <Button variant="link" size="sm" type="Button" role="tab">Fruits</Button>
+                            </Link>
                         </ListItem>
                         <ListItem className="nav-item" role="presentation">
-                            <Button variant="link" size="sm" type="Button" role="tab">Plants</Button>
+                            <Link to="/shop?categories=plants">
+                                <Button variant="link" size="sm" type="Button" role="tab">Plants</Button>
+                            </Link>
                         </ListItem>
                         <ListItem className="nav-item" role="presentation">
-                            <Button variant="link" size="sm" type="Button" role="tab">Organic products</Button>
+                            <Link to="/shop?categories=organic+products">
+                                <Button variant="link" size="sm" type="Button" role="tab">Organic products</Button>
+                            </Link>
                         </ListItem>
                         <ListItem className="nav-item" role="presentation">
-                            <Button variant="link" size="sm" type="Button" role="tab">Groceries</Button>
+                            <Link to="/shop?categories=groceries">
+                                <Button variant="link" size="sm" type="Button" role="tab">Groceries</Button>
+                            </Link>
                         </ListItem>
                     </List>
                 </div>
